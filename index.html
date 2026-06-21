@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M(CSE)401 — Probability & Statistics | Complete Study Platform</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --bg3: #1a2235;
+    --surface: #1e2d42;
+    --border: #2a3f5f;
+    --accent: #3b82f6;
+    --accent2: #06b6d4;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --purple: #8b5cf6;
+    --pink: #ec4899;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+    --serif: 'Lora', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0d1b2e 50%, #0a0e1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: 'Σ∫μσ²';
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    font-size: 200px;
+    font-family: var(--serif);
+    color: rgba(59,130,246,0.04);
+    font-weight: 600;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #e2e8f0, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    color: var(--text2);
+    font-size: 16px;
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat .num {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent);
+    font-family: var(--mono);
+  }
+  .hero-stat .label {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* NAV */
+  .nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav::-webkit-scrollbar { height: 2px; }
+  .nav::-webkit-scrollbar-thumb { background: var(--accent); }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--text3);
+    padding: 16px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--sans);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN LAYOUT */
+  .main { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* MODULE CARDS */
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .module-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .module-card.m1::before { background: var(--accent); }
+  .module-card.m2::before { background: var(--accent2); }
+  .module-card.m3::before { background: var(--purple); }
+  .module-card.m4::before { background: var(--gold); }
+  .module-card.m5::before { background: var(--green); }
+  .module-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .module-card .num { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+  .module-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .module-card p { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
+  .module-card .hours { font-size: 11px; color: var(--text3); }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tag.blue { background: rgba(59,130,246,0.15); color: var(--accent); }
+  .tag.cyan { background: rgba(6,182,212,0.15); color: var(--accent2); }
+  .tag.purple { background: rgba(139,92,246,0.15); color: var(--purple); }
+  .tag.gold { background: rgba(245,158,11,0.15); color: var(--gold); }
+  .tag.green { background: rgba(16,185,129,0.15); color: var(--green); }
+
+  /* THEORY CONTENT */
+  .theory-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .theory-header {
+    background: var(--bg3);
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .theory-header h3 { font-size: 15px; font-weight: 700; color: var(--text); }
+  .theory-header .badge { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+  .theory-body { padding: 24px; display: none; }
+  .theory-body.open { display: block; }
+
+  .def-box {
+    background: rgba(59,130,246,0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .def-box .def-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 6px; }
+  .def-box p { font-size: 14px; line-height: 1.7; color: var(--text); }
+
+  .formula-box {
+    background: rgba(139,92,246,0.08);
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--purple);
+    text-align: center;
+  }
+  .formula-box .formula-label { font-family: var(--sans); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 8px; }
+
+  .tip-box {
+    background: rgba(245,158,11,0.08);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+  .tip-box .tip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 4px; }
+  .tip-box p { font-size: 13px; line-height: 1.6; color: var(--text2); }
+
+  .warn-box {
+    background: rgba(239,68,68,0.08);
+    border-left: 3px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+  .warn-box .warn-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--red); margin-bottom: 4px; }
+  .warn-box p { font-size: 13px; line-height: 1.6; color: var(--text2); }
+
+  .predict-box {
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .predict-box .predict-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--green); margin-bottom: 8px; }
+  .predict-box ul { font-size: 13px; color: var(--text2); line-height: 1.8; padding-left: 18px; }
+
+  .theory-body h4 { font-size: 14px; font-weight: 700; color: var(--accent2); margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .theory-body p { font-size: 14px; line-height: 1.8; color: var(--text2); margin: 8px 0; }
+  .theory-body ul { font-size: 14px; color: var(--text2); line-height: 1.8; padding-left: 20px; margin: 8px 0; }
+  .theory-body li { margin: 4px 0; }
+
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--bg3); color: var(--accent); font-weight: 700; padding: 10px 14px; text-align: left; border: 1px solid var(--border); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text2); }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* SOLVED QUESTIONS */
+  .solved-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .solved-q {
+    background: var(--bg3);
+    padding: 18px 24px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .solved-q .q-num { color: var(--accent); font-weight: 700; font-family: var(--mono); font-size: 12px; white-space: nowrap; margin-top: 2px; }
+  .solved-q .difficulty { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; white-space: nowrap; margin-top: 4px; }
+  .difficulty.easy { background: rgba(16,185,129,0.15); color: var(--green); }
+  .difficulty.medium { background: rgba(245,158,11,0.15); color: var(--gold); }
+  .difficulty.hard { background: rgba(239,68,68,0.15); color: var(--red); }
+  .solved-ans { padding: 20px 24px; display: none; border-top: 1px solid var(--border); }
+  .solved-ans.open { display: block; }
+  .step { margin: 12px 0; padding: 12px 16px; background: rgba(255,255,255,0.03); border-radius: 6px; }
+  .step-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 6px; }
+  .step p { font-size: 13px; line-height: 1.7; color: var(--text2); }
+  .final-ans { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 14px 18px; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--green); }
+
+  /* MCQ */
+  .mcq-container { max-width: 800px; margin: 0 auto; }
+  .mcq-progress-bar { background: var(--bg3); border-radius: 20px; height: 6px; margin-bottom: 30px; overflow: hidden; }
+  .mcq-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 20px; transition: width 0.4s; }
+  .mcq-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+  .mcq-card .q-info { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 11px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .mcq-card .question { font-size: 16px; color: var(--text); line-height: 1.7; margin-bottom: 24px; font-weight: 500; }
+  .options { display: grid; gap: 10px; }
+  .option-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text2);
+    font-family: var(--sans);
+    transition: all 0.15s;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .option-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--text); background: rgba(59,130,246,0.08); }
+  .option-btn .opt-key { font-weight: 700; color: var(--accent); font-family: var(--mono); font-size: 13px; }
+  .option-btn.correct { border-color: var(--green); background: rgba(16,185,129,0.12); color: var(--text); }
+  .option-btn.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); color: var(--text); }
+  .option-btn:disabled { cursor: default; }
+  .explanation {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation .exp-label { font-weight: 700; color: var(--accent); margin-bottom: 6px; font-size: 11px; text-transform: uppercase; }
+  .mcq-controls { display: flex; gap: 12px; margin-top: 24px; }
+  .btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #2563eb; }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text2); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-gold { background: var(--gold); color: #000; }
+  .btn-gold:hover { background: #d97706; }
+
+  .score-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+  }
+  .score-num { font-size: 64px; font-weight: 900; font-family: var(--mono); color: var(--accent); }
+  .score-label { color: var(--text2); margin-top: 8px; }
+
+  /* FLASHCARDS */
+  .flashcard-container { max-width: 700px; margin: 0 auto; }
+  .flashcard {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    min-height: 280px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s;
+    perspective: 1000px;
+  }
+  .flashcard:hover { transform: scale(1.01); }
+  .flashcard .card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 20px; }
+  .flashcard .card-label.front { color: var(--accent); }
+  .flashcard .card-label.back { color: var(--green); }
+  .flashcard .card-content { font-size: 18px; font-weight: 600; line-height: 1.6; color: var(--text); }
+  .flashcard .card-sub { font-size: 13px; color: var(--text2); margin-top: 16px; line-height: 1.7; }
+  .flashcard .flip-hint { position: absolute; bottom: 16px; right: 20px; font-size: 11px; color: var(--text3); }
+  .fc-controls { display: flex; gap: 12px; margin-top: 20px; justify-content: center; align-items: center; }
+  .fc-counter { font-size: 13px; color: var(--text3); font-family: var(--mono); }
+
+  /* CHEATSHEET */
+  .cheat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .cheat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .cheat-card h4 { font-size: 13px; font-weight: 700; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .cheat-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); gap: 12px; }
+  .cheat-item:last-child { border-bottom: none; }
+  .cheat-item .ci-name { font-size: 12px; color: var(--text2); flex: 1; }
+  .cheat-item .ci-val { font-size: 12px; color: var(--purple); font-family: var(--mono); text-align: right; }
+
+  /* MOCK EXAM */
+  .exam-header {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .timer { font-size: 32px; font-weight: 900; font-family: var(--mono); color: var(--gold); }
+  .exam-q { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; margin-bottom: 14px; }
+  .exam-q .eq-num { font-size: 12px; color: var(--text3); font-family: var(--mono); margin-bottom: 8px; }
+  .exam-q p { font-size: 14px; line-height: 1.7; color: var(--text); }
+  .exam-q textarea { width: 100%; margin-top: 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 12px; color: var(--text); font-size: 13px; font-family: var(--sans); resize: vertical; min-height: 80px; }
+  .exam-q textarea::placeholder { color: var(--text3); }
+
+  /* GENERAL */
+  .section-title { font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .section-sub { font-size: 14px; color: var(--text2); margin-bottom: 32px; }
+  .chevron { transition: transform 0.2s; display: inline-block; }
+  .chevron.open { transform: rotate(180deg); }
+
+  .module-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--text3); font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
+  .filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.1); }
+
+  .search-bar { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; color: var(--text); font-size: 14px; font-family: var(--sans); margin-bottom: 20px; }
+  .search-bar::placeholder { color: var(--text3); }
+  .search-bar:focus { outline: none; border-color: var(--accent); }
+
+  .exam-predict { background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(6,182,212,0.05)); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .exam-predict h3 { color: var(--green); font-size: 16px; margin-bottom: 12px; }
+  .exam-predict ul { font-size: 14px; color: var(--text2); line-height: 2; padding-left: 20px; }
+
+  .module-section-title { font-size: 20px; font-weight: 800; color: var(--text); margin: 36px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+  .module-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 30px 20px; }
+    .hero-stats { gap: 20px; }
+    .theory-body, .solved-ans { padding: 16px; }
+    .mcq-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Newton School of Technology · M(CSE)401</div>
+  <h1>Probability &<br>Statistics</h1>
+  <p>Your complete exam-topping companion. Theory, solved problems, MCQs, flashcards, formula sheet, and predicted questions — all in one place.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">5</div><div class="label">Modules</div></div>
+    <div class="hero-stat"><div class="num">57+</div><div class="label">Bank Questions</div></div>
+    <div class="hero-stat"><div class="num">80+</div><div class="label">MCQs</div></div>
+    <div class="hero-stat"><div class="num">50+</div><div class="label">Flashcards</div></div>
+    <div class="hero-stat"><div class="num">36</div><div class="label">Hours Content</div></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSection('overview')">📚 Overview</button>
+  <button class="nav-btn" onclick="showSection('theory')">📖 Theory</button>
+  <button class="nav-btn" onclick="showSection('solved')">✏️ Solved Q&A</button>
+  <button class="nav-btn" onclick="showSection('mcq')">🎯 MCQ Practice</button>
+  <button class="nav-btn" onclick="showSection('flashcards')">🃏 Flashcards</button>
+  <button class="nav-btn" onclick="showSection('cheatsheet')">⚡ Cheat Sheet</button>
+  <button class="nav-btn" onclick="showSection('predict')">🔮 Exam Predict</button>
+  <button class="nav-btn" onclick="showSection('mockexam')">📝 Mock Exam</button>
+</nav>
+
+<div class="main">
+
+<!-- =================== OVERVIEW =================== -->
+<div id="section-overview" class="section active">
+  <p class="section-title">Your Complete Study Roadmap</p>
+  <p class="section-sub">Start here. Understand what each module covers, how many hours it carries, and what type of questions to expect.</p>
+
+  <div class="exam-predict" style="margin-bottom:32px;">
+    <h3>🎯 How to Use This Platform to TOP Your Exam</h3>
+    <ul>
+      <li><strong>Step 1:</strong> Read Theory for each module (understand the WHY, not just the formula)</li>
+      <li><strong>Step 2:</strong> Solve all worked examples in Solved Q&A — don't skip steps</li>
+      <li><strong>Step 3:</strong> Do MCQ Practice for each module until you hit 90%+ accuracy</li>
+      <li><strong>Step 4:</strong> Use Flashcards daily — even 10 minutes on the bus</li>
+      <li><strong>Step 5:</strong> Memorize the Cheat Sheet 2 days before exam</li>
+      <li><strong>Step 6:</strong> Take the Mock Exam under timed conditions</li>
+      <li><strong>Step 7:</strong> Read Exam Predictions 1 night before — focus your revision</li>
+    </ul>
+  </div>
+
+  <div class="module-grid">
+    <div class="module-card m1" onclick="showSection('theory'); setTimeout(()=>openModule('t1'),100)">
+      <div class="num">Module 1 · 15 Hours</div>
+      <h3>Probability & Random Variables</h3>
+      <p>The heaviest module. Axioms of probability, Bayes theorem, PMF/PDF/CDF, expectation, moments, MGF, and the 6 key distributions.</p>
+      <div class="tag-row">
+        <span class="tag blue">Binomial</span>
+        <span class="tag blue">Poisson</span>
+        <span class="tag blue">Normal</span>
+        <span class="tag blue">MGF</span>
+        <span class="tag blue">Bayes</span>
+      </div>
+      <div class="hours" style="margin-top:12px">⚠️ Highest weightage — master this first</div>
+    </div>
+    <div class="module-card m2" onclick="showSection('theory'); setTimeout(()=>openModule('t2'),100)">
+      <div class="num">Module 2 · 5 Hours</div>
+      <h3>Two Dimensional Random Variables</h3>
+      <p>Joint distributions, marginal/conditional distributions, covariance, correlation, linear regression, CLT.</p>
+      <div class="tag-row">
+        <span class="tag cyan">Correlation</span>
+        <span class="tag cyan">Regression</span>
+        <span class="tag cyan">CLT</span>
+        <span class="tag cyan">Joint PDF</span>
+      </div>
+    </div>
+    <div class="module-card m3" onclick="showSection('theory'); setTimeout(()=>openModule('t3'),100)">
+      <div class="num">Module 3 · 3 Hours</div>
+      <h3>Sampling Distributions</h3>
+      <p>Sampling from normal populations. Chi-square, t, and F distributions. Sample mean and variance distributions.</p>
+      <div class="tag-row">
+        <span class="tag purple">Chi-Square</span>
+        <span class="tag purple">t-dist</span>
+        <span class="tag purple">F-dist</span>
+      </div>
+    </div>
+    <div class="module-card m4" onclick="showSection('theory'); setTimeout(()=>openModule('t4'),100)">
+      <div class="num">Module 4 · 4 Hours</div>
+      <h3>Estimation</h3>
+      <p>Point estimation (unbiasedness, consistency), MLE, Method of Moments, confidence intervals for means and proportions.</p>
+      <div class="tag-row">
+        <span class="tag gold">MLE</span>
+        <span class="tag gold">Unbiased</span>
+        <span class="tag gold">CI</span>
+        <span class="tag gold">MOM</span>
+      </div>
+    </div>
+    <div class="module-card m5" onclick="showSection('theory'); setTimeout(()=>openModule('t5'),100)">
+      <div class="num">Module 5 · 9 Hours</div>
+      <h3>Testing of Hypotheses</h3>
+      <p>H₀ vs H₁, Type I & II errors, z-test, t-test, Chi-square test. Neyman-Pearson lemma, goodness of fit.</p>
+      <div class="tag-row">
+        <span class="tag green">z-test</span>
+        <span class="tag green">t-test</span>
+        <span class="tag green">χ²-test</span>
+        <span class="tag green">NP Lemma</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>📊 Complete Distribution Reference Table</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="table-wrap">
+        <table>
+          <tr><th>Distribution</th><th>Parameters</th><th>Mean</th><th>Variance</th><th>PMF/PDF</th></tr>
+          <tr><td>Binomial B(n,p)</td><td>n, p</td><td>np</td><td>np(1−p)</td><td>C(n,r)·pʳ·(1−p)ⁿ⁻ʳ</td></tr>
+          <tr><td>Poisson P(μ)</td><td>μ</td><td>μ</td><td>μ</td><td>e⁻ᵘ·μˣ/x!</td></tr>
+          <tr><td>Geometric G(p)</td><td>p</td><td>1/p</td><td>(1−p)/p²</td><td>p·(1−p)ˣ⁻¹</td></tr>
+          <tr><td>Uniform U(a,b)</td><td>a, b</td><td>(a+b)/2</td><td>(b−a)²/12</td><td>1/(b−a)</td></tr>
+          <tr><td>Exponential Exp(λ)</td><td>λ</td><td>1/λ</td><td>1/λ²</td><td>λ·e⁻λˣ</td></tr>
+          <tr><td>Normal N(μ,σ²)</td><td>μ, σ²</td><td>μ</td><td>σ²</td><td>(1/σ√2π)·e⁻(x−μ)²/2σ²</td></tr>
+          <tr><td>Standard Normal Z</td><td>0, 1</td><td>0</td><td>1</td><td>(1/√2π)·e⁻z²/2</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== THEORY =================== -->
+<div id="section-theory" class="section">
+  <p class="section-title">Complete Theory Notes</p>
+  <p class="section-sub">Every concept explained with definitions, formulas, intuition, and exam tips. Click any section to expand.</p>
+
+  <!-- MODULE 1 -->
+  <div class="module-section-title">
+    <span class="module-pill tag blue">Module 1</span> Probability & Random Variables
+  </div>
+
+  <div class="theory-block" id="t1">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>1.1 Axioms of Probability & Conditional Probability</h3>
+      <span class="badge tag blue">Foundation</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <p>Probability measures how likely an event is. Before you can solve any stats problem, you must understand probability deeply.</p>
+      <div class="def-box">
+        <div class="def-label">Definition: Sample Space & Events</div>
+        <p>The <strong>sample space Ω</strong> is the set of all possible outcomes. An <strong>event A</strong> is any subset of Ω. The probability P(A) satisfies:</p>
+      </div>
+      <h4>Kolmogorov's Three Axioms (The Rules of Probability)</h4>
+      <ul>
+        <li><strong>Axiom 1 (Non-negativity):</strong> P(A) ≥ 0 for any event A</li>
+        <li><strong>Axiom 2 (Normalization):</strong> P(Ω) = 1 (something always happens)</li>
+        <li><strong>Axiom 3 (Additivity):</strong> If A ∩ B = ∅, then P(A ∪ B) = P(A) + P(B)</li>
+      </ul>
+      <p>From these 3 axioms, EVERY other probability rule is derived. They are not optional — they define what probability IS.</p>
+      <div class="tip-box">
+        <div class="tip-label">💡 Why these axioms matter in exam</div>
+        <p>Exam questions often ask you to verify whether a given function is a valid probability distribution. Check: all probabilities ≥ 0, and they sum to exactly 1.</p>
+      </div>
+      <h4>Key Derived Results</h4>
+      <ul>
+        <li>P(Aᶜ) = 1 − P(A) <em>(complement rule)</em></li>
+        <li>P(A ∪ B) = P(A) + P(B) − P(A ∩ B) <em>(addition rule)</em></li>
+        <li>P(∅) = 0</li>
+        <li>0 ≤ P(A) ≤ 1</li>
+      </ul>
+      <div class="def-box">
+        <div class="def-label">Definition: Conditional Probability</div>
+        <p>The probability of A given B has occurred: <strong>P(A|B) = P(A ∩ B) / P(B)</strong>, where P(B) > 0.</p>
+      </div>
+      <p>Think of conditional probability as "restricting" your sample space to B, then asking how much of it is A.</p>
+      <div class="formula-box">
+        <div class="formula-label">Multiplication Rule</div>
+        P(A ∩ B) = P(A|B) · P(B) = P(B|A) · P(A)
+      </div>
+      <h4>Independent Events</h4>
+      <p>A and B are <strong>independent</strong> if P(A ∩ B) = P(A) · P(B), equivalently P(A|B) = P(A). Independence means knowing B tells you nothing about A.</p>
+      <div class="warn-box">
+        <div class="warn-label">⚠️ Common Exam Mistake</div>
+        <p>Mutually exclusive ≠ independent. If A ∩ B = ∅ (mutually exclusive) and both have positive probability, then P(A∩B) = 0 ≠ P(A)·P(B). So mutually exclusive events with positive probability are actually DEPENDENT!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>1.2 Bayes' Theorem</h3>
+      <span class="badge tag blue">High Weightage</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <p>Bayes' Theorem is one of the most powerful tools in probability. It lets you "reverse" conditional probability — find P(cause | effect) from P(effect | cause).</p>
+      <div class="formula-box">
+        <div class="formula-label">Bayes' Theorem</div>
+        P(Aᵢ | B) = P(B | Aᵢ) · P(Aᵢ) / Σⱼ P(B | Aⱼ) · P(Aⱼ)
+      </div>
+      <p>The denominator Σⱼ P(B | Aⱼ) · P(Aⱼ) = P(B) is called the <strong>Total Probability</strong>.</p>
+      <div class="def-box">
+        <div class="def-label">Terminology</div>
+        <p><strong>Prior P(Aᵢ):</strong> What you believed BEFORE seeing evidence B.<br><strong>Likelihood P(B|Aᵢ):</strong> How likely evidence B is under hypothesis Aᵢ.<br><strong>Posterior P(Aᵢ|B):</strong> Updated belief AFTER seeing evidence B.</p>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">💡 Step-by-step approach for Bayes problems</div>
+        <p>1) Identify all mutually exclusive & exhaustive events A₁, A₂, ... (the "hypotheses")<br>2) Find P(Aᵢ) — prior probabilities<br>3) Find P(B|Aᵢ) — likelihood for each hypothesis<br>4) Compute P(B) = ΣP(B|Aᵢ)·P(Aᵢ)<br>5) Apply Bayes formula</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>1.3 Random Variables — Discrete & Continuous</h3>
+      <span class="badge tag blue">Core Concept</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="def-box">
+        <div class="def-label">Definition: Random Variable</div>
+        <p>A <strong>random variable X</strong> is a function X: Ω → ℝ that assigns a real number to each outcome. It is NOT random in itself — it maps randomness (the experiment) to numbers.</p>
+      </div>
+      <h4>Discrete vs Continuous</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Property</th><th>Discrete RV</th><th>Continuous RV</th></tr>
+        <tr><td>Values</td><td>Countable (0, 1, 2, ...)</td><td>Uncountable (any real value)</td></tr>
+        <tr><td>Distribution</td><td>PMF: P(X = x)</td><td>PDF: f(x)</td></tr>
+        <tr><td>Sum/Integral</td><td>Σ P(X = xᵢ) = 1</td><td>∫f(x)dx = 1</td></tr>
+        <tr><td>Probability</td><td>P(X = a) can be > 0</td><td>P(X = a) = 0 always!</td></tr>
+        <tr><td>CDF F(x)</td><td>Σ P(X = xᵢ) for xᵢ ≤ x</td><td>∫₋∞ˣ f(t)dt</td></tr>
+      </table></div>
+      <h4>Properties of CDF F(x)</h4>
+      <ul>
+        <li>F(x) is <strong>monotone non-decreasing</strong> (never decreases)</li>
+        <li>lim F(x) as x→−∞ = 0</li>
+        <li>lim F(x) as x→+∞ = 1</li>
+        <li>F(x) is right-continuous</li>
+        <li>P(a < X ≤ b) = F(b) − F(a)</li>
+      </ul>
+      <div class="warn-box">
+        <div class="warn-label">⚠️ MCQ Trap — MCQ Q1 in your bank</div>
+        <p>The CDF is "monotone non-decreasing" (option d) — NOT strictly increasing, because it can stay flat between jumps in discrete cases.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>1.4 Mathematical Expectation, Variance & Moments</h3>
+      <span class="badge tag blue">Very High Weightage</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="formula-box">
+        <div class="formula-label">Expectation Formulas</div>
+        Discrete: E(X) = Σ xᵢ · P(X = xᵢ)<br><br>
+        Continuous: E(X) = ∫₋∞^∞ x · f(x) dx<br><br>
+        E(g(X)) = Σ g(xᵢ)·P(xᵢ)  or  ∫g(x)·f(x)dx
+      </div>
+      <h4>Key Properties of Expectation</h4>
+      <ul>
+        <li>E(c) = c (constant)</li>
+        <li>E(aX + b) = aE(X) + b (linearity)</li>
+        <li>E(X + Y) = E(X) + E(Y) (always!)</li>
+        <li>E(XY) = E(X)·E(Y) ONLY if X, Y are <strong>independent</strong></li>
+      </ul>
+      <div class="formula-box">
+        <div class="formula-label">Variance</div>
+        Var(X) = E(X²) − [E(X)]² = E[(X − μ)²]<br><br>
+        Var(aX + b) = a²·Var(X)  (constants shift don't affect spread!)<br><br>
+        Var(X + Y) = Var(X) + Var(Y) if X, Y independent
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">💡 MCQ Quick Check — Q4 in bank</div>
+        <p>Var(3X+5) = 3²·Var(X) = 9·(2/3) = 6. The +5 disappears! Adding a constant shifts the distribution but does NOT change spread.</p>
+      </div>
+      <h4>Moments</h4>
+      <p>The <strong>r-th moment about origin</strong>: μ'ᵣ = E(Xʳ)</p>
+      <p>The <strong>r-th central moment</strong>: μᵣ = E[(X − μ)ʳ]</p>
+      <p>Note: μ'₁ = E(X) = mean. μ₂ = Var(X). μ₁ = 0 always.</p>
+      <h4>Moment Generating Function (MGF)</h4>
+      <div class="formula-box">
+        <div class="formula-label">MGF Definition</div>
+        Mₓ(t) = E(eᵗˣ) = Σ eᵗˣ·P(x) or ∫eᵗˣ·f(x)dx<br><br>
+        E(Xʳ) = Mₓ⁽ʳ⁾(0) = dʳMₓ/dtʳ evaluated at t=0
+      </div>
+      <p>MGF uniquely determines the distribution. Two RVs with the same MGF have the same distribution.</p>
+      <div class="table-wrap"><table>
+        <tr><th>Distribution</th><th>MGF Mₓ(t)</th></tr>
+        <tr><td>Binomial B(n,p)</td><td>(q + peᵗ)ⁿ where q = 1−p</td></tr>
+        <tr><td>Poisson P(μ)</td><td>exp(μ(eᵗ − 1))</td></tr>
+        <tr><td>Normal N(μ,σ²)</td><td>exp(μt + σ²t²/2)</td></tr>
+        <tr><td>Exponential Exp(λ)</td><td>λ/(λ−t), t < λ</td></tr>
+        <tr><td>Uniform U(a,b)</td><td>(eᵇᵗ − eᵃᵗ)/(t(b−a))</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>1.5 Binomial Distribution B(n, p)</h3>
+      <span class="badge tag blue">Very High Weightage</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="def-box">
+        <div class="def-label">When to use Binomial?</div>
+        <p>Use Binomial when: (1) Fixed n trials, (2) Each trial has exactly 2 outcomes (success/failure), (3) Trials are independent, (4) P(success) = p is constant each trial.</p>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Binomial PMF</div>
+        P(X = r) = C(n,r) · pʳ · qⁿ⁻ʳ, where q = 1−p, r = 0,1,...,n<br><br>
+        Mean = np | Variance = npq | SD = √(npq)
+      </div>
+      <p>To find n and p from mean and variance: Set np = mean, npq = variance → q = variance/mean, p = 1−q, n = mean/p.</p>
+      <div class="tip-box">
+        <div class="tip-label">💡 Q10 type in bank — find n, p from mean and SD</div>
+        <p>Mean = 4, SD = √(8/3). So np = 4, npq = 8/3. Therefore q = (8/3)/4 = 2/3, p = 1/3, n = 4/(1/3) = 12. Answer: n=12, p=1/3.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>1.6 Poisson Distribution P(μ)</h3>
+      <span class="badge tag blue">High Weightage</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="def-box">
+        <div class="def-label">When to use Poisson?</div>
+        <p>Use Poisson for counting rare events in a fixed interval (time, space, volume). Examples: radioactive emissions, calls per hour, typos per page.</p>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Poisson PMF</div>
+        P(X = x) = e⁻ᵘ · μˣ / x!,  x = 0, 1, 2, ...<br><br>
+        Mean = μ | Variance = μ | Both are EQUAL — key fact!
+      </div>
+      <p>Poisson is a limiting case of Binomial when n→∞, p→0 with np = μ fixed.</p>
+      <div class="tip-box">
+        <div class="tip-label">💡 Key trick: P(X=1) = P(X=2) implies μ = 2</div>
+        <p>e⁻ᵘμ/1! = e⁻ᵘμ²/2! → μ = μ²/2 → μ = 2. So variance = 2. This appears as MCQ Q10.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>1.7 Normal Distribution N(μ, σ²)</h3>
+      <span class="badge tag blue">Very High Weightage</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="def-box">
+        <div class="def-label">Why Normal is Special</div>
+        <p>The Normal distribution is the most important in statistics. By the Central Limit Theorem, sums of many independent RVs are approximately normal, regardless of the original distribution.</p>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Normal PDF</div>
+        f(x) = (1/σ√2π) · exp(−(x−μ)²/2σ²),  −∞ &lt; x &lt; ∞<br><br>
+        Mean = μ | Variance = σ² | Symmetric about μ
+      </div>
+      <h4>Standardization — The Most Important Step</h4>
+      <p>To use normal tables, convert X ~ N(μ,σ²) to Z ~ N(0,1):</p>
+      <div class="formula-box">
+        <div class="formula-label">Standardization Formula</div>
+        Z = (X − μ) / σ<br><br>
+        P(X ≤ x) = P(Z ≤ (x−μ)/σ) = Φ((x−μ)/σ)
+      </div>
+      <h4>Properties of Normal Distribution</h4>
+      <ul>
+        <li>Bell-shaped, symmetric about μ</li>
+        <li>Mean = Median = Mode = μ</li>
+        <li>P(μ−σ ≤ X ≤ μ+σ) ≈ 68.27%</li>
+        <li>P(μ−2σ ≤ X ≤ μ+2σ) ≈ 95.45%</li>
+        <li>P(μ−3σ ≤ X ≤ μ+3σ) ≈ 99.73%</li>
+      </ul>
+      <div class="tip-box">
+        <div class="tip-label">💡 If X ~ N(0,1), then E(X²) = Var(X) + [E(X)]² = 1 + 0 = 1</div>
+        <p>This is MCQ Q14. E(X²) = Var(X) + μ² = 1 + 0² = 1.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 2 -->
+  <div class="module-section-title">
+    <span class="module-pill tag cyan">Module 2</span> Two Dimensional Random Variables
+  </div>
+
+  <div class="theory-block" id="t2">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>2.1 Joint, Marginal & Conditional Distributions</h3>
+      <span class="badge tag cyan">Module 2</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <p>When you have two random variables X and Y together, you study their joint behavior.</p>
+      <div class="formula-box">
+        <div class="formula-label">Joint, Marginal, and Conditional</div>
+        Joint PMF: P(X=x, Y=y) — must sum to 1<br><br>
+        Marginal of X: P(X=x) = Σᵧ P(X=x, Y=y)<br><br>
+        Conditional: P(X=x | Y=y) = P(X=x, Y=y) / P(Y=y)
+      </div>
+      <h4>Independence of X and Y</h4>
+      <p>X and Y are independent if: f(x,y) = fₓ(x)·fᵧ(y) for all x,y.</p>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>2.2 Covariance, Correlation & Linear Regression</h3>
+      <span class="badge tag cyan">Very Important</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="formula-box">
+        <div class="formula-label">Covariance & Correlation</div>
+        Cov(X,Y) = E(XY) − E(X)·E(Y)<br><br>
+        Correlation: r = Cov(X,Y) / (σₓ · σᵧ)<br><br>
+        −1 ≤ r ≤ 1 always
+      </div>
+      <ul>
+        <li>r = 1: perfect positive linear relationship</li>
+        <li>r = −1: perfect negative linear relationship</li>
+        <li>r = 0: uncorrelated (but NOT necessarily independent!)</li>
+      </ul>
+      <div class="tip-box">
+        <div class="tip-label">💡 Effect of linear transformation on r (MCQ Q8, Q17)</div>
+        <p>If u = a₁x + b₁ and v = a₂y + b₂, then r(u,v) = sign(a₁·a₂) · r(x,y). For Q8: r(5x, -3y) = sign(5·(−3)) · 0.5 = −0.5. For Q17: r(2x+5, −2y+3) = sign(2·(−2)) · (−2/3) = 2/3.</p>
+      </div>
+      <h4>Regression Lines</h4>
+      <div class="formula-box">
+        <div class="formula-label">Two Regression Lines</div>
+        Y on X: y − ȳ = r·(σᵧ/σₓ)·(x − x̄)  → used to find Y given X<br><br>
+        X on Y: x − x̄ = r·(σₓ/σᵧ)·(y − ȳ)  → used to find X given Y<br><br>
+        Product of regression coefficients = r²
+      </div>
+      <div class="warn-box">
+        <div class="warn-label">⚠️ Identifying Regression Lines (Q29 in bank)</div>
+        <p>Given two lines, the one with smaller coefficient for the "predictor" variable is Y on X. Cross-multiply both lines to standard form. The regression coefficient byx = r·σy/σx. Since r² = byx · bxy ≤ 1, both regression coefficients must have the same sign.</p>
+      </div>
+      <h4>Central Limit Theorem</h4>
+      <div class="def-box">
+        <div class="def-label">Central Limit Theorem (CLT)</div>
+        <p>If X₁, X₂, ..., Xₙ are i.i.d. with mean μ and variance σ², then as n→∞:<br>X̄ ~ N(μ, σ²/n) approximately. The standardized sum Z = (X̄ − μ)/(σ/√n) → N(0,1).</p>
+      </div>
+      <p>This is why we can use normal tables for large samples even when the original population is not normal. Rule of thumb: n ≥ 30 is "large enough".</p>
+    </div>
+  </div>
+
+  <!-- MODULE 3 -->
+  <div class="module-section-title">
+    <span class="module-pill tag purple">Module 3</span> Sampling Distributions
+  </div>
+
+  <div class="theory-block" id="t3">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>3.1 Sampling Distributions — χ², t, and F</h3>
+      <span class="badge tag purple">Module 3</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="def-box">
+        <div class="def-label">What is a Sampling Distribution?</div>
+        <p>When you take a sample and compute a statistic (like mean, variance), that statistic is itself a random variable with its own distribution — that's the sampling distribution.</p>
+      </div>
+      <h4>Distribution of Sample Mean X̄</h4>
+      <p>If X₁,...,Xₙ ~ N(μ,σ²), then X̄ ~ N(μ, σ²/n). Standard error of mean = σ/√n.</p>
+      <div class="tip-box">
+        <div class="tip-label">💡 MCQ Q19 — Standard Error</div>
+        <p>Population: μ=3, σ=0.2, n=100. SE of X̄ = σ/√n = 0.2/√100 = 0.2/10 = 0.02.</p>
+      </div>
+      <h4>Chi-Square Distribution χ²(k)</h4>
+      <p>If Z₁,...,Zₖ ~ N(0,1) iid, then X = Z₁² + Z₂² + ... + Zₖ² ~ χ²(k) with k degrees of freedom.</p>
+      <p>Mean = k, Variance = 2k. Used for testing variance and goodness of fit.</p>
+      <h4>t-Distribution t(k)</h4>
+      <p>If Z ~ N(0,1) and V ~ χ²(k) independently, then T = Z/√(V/k) ~ t(k). Used when population variance is unknown and sample is small.</p>
+      <p>As k→∞, t(k) → N(0,1).</p>
+      <h4>F-Distribution F(m,n)</h4>
+      <p>If U ~ χ²(m) and V ~ χ²(n) independently, then F = (U/m)/(V/n) ~ F(m,n). Used for comparing two variances.</p>
+    </div>
+  </div>
+
+  <!-- MODULE 4 -->
+  <div class="module-section-title">
+    <span class="module-pill tag gold">Module 4</span> Estimation
+  </div>
+
+  <div class="theory-block" id="t4">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>4.1 Point Estimation — Unbiasedness & Consistency</h3>
+      <span class="badge tag gold">Module 4</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="def-box">
+        <div class="def-label">Estimator vs Estimate</div>
+        <p>An <strong>estimator T</strong> is a function of the sample (a formula). An <strong>estimate</strong> is the specific value obtained after plugging in data. T = g(X₁,...,Xₙ).</p>
+      </div>
+      <h4>Properties of Good Estimators</h4>
+      <div class="formula-box">
+        <div class="formula-label">Unbiasedness</div>
+        T is unbiased for θ if E(T) = θ for all θ.<br>Bias = E(T) − θ = 0
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Consistency</div>
+        T is consistent for θ if Tₙ →ᴾ θ as n→∞.<br>Sufficient condition: E(Tₙ)→θ and Var(Tₙ)→0
+      </div>
+      <ul>
+        <li>Sample mean X̄ is unbiased for μ (E(X̄) = μ)</li>
+        <li>Sample variance S² = Σ(Xᵢ−X̄)²/(n−1) is unbiased for σ²</li>
+        <li>Biased: Σ(Xᵢ−X̄)²/n (biased — divide by n−1 to correct)</li>
+      </ul>
+      <div class="tip-box">
+        <div class="tip-label">💡 MCQ Q30 — Unbiased variance estimator</div>
+        <p>If S² = sample variance with n=10, the unbiased estimator is (n/(n-1))·S² = (10/9)·S² = 10S²/9.</p>
+      </div>
+      <div class="warn-box">
+        <div class="warn-label">⚠️ Key Result from Q38: If X is unbiased for A, X² is BIASED for A²</div>
+        <p>E(X²) = Var(X) + [E(X)]² = Var(X) + A² ≠ A². The bias is Var(X) > 0.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>4.2 Maximum Likelihood Estimation (MLE)</h3>
+      <span class="badge tag gold">High Weightage</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="def-box">
+        <div class="def-label">Idea Behind MLE</div>
+        <p>Given observed data, find the parameter θ that makes the observed data MOST likely to have occurred. MLE θ̂ maximizes the likelihood function L(θ).</p>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">MLE Procedure</div>
+        1. Write likelihood: L(θ) = Πᵢ f(xᵢ; θ)<br>
+        2. Take log: ℓ(θ) = log L(θ) = Σᵢ log f(xᵢ; θ)<br>
+        3. Differentiate: dℓ/dθ = 0<br>
+        4. Solve for θ (verify it's a maximum)
+      </div>
+      <h4>Standard MLEs</h4>
+      <ul>
+        <li><strong>Normal μ (σ known):</strong> θ̂ = X̄</li>
+        <li><strong>Binomial p:</strong> p̂ = X̄/n (MCQ Q20)</li>
+        <li><strong>Poisson μ:</strong> μ̂ = X̄</li>
+        <li><strong>Exponential λ:</strong> λ̂ = 1/X̄</li>
+      </ul>
+      <div class="tip-box">
+        <div class="tip-label">💡 MLE for Binomial: MCQ Q20</div>
+        <p>For Binomial with parameter n (known) and p (unknown): MLE of p = X̄/n. Not X̄ alone!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>4.3 Confidence Intervals</h3>
+      <span class="badge tag gold">Very Exam-Relevant</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <p>A confidence interval (CI) gives a RANGE of values likely to contain the true parameter. A 95% CI means: if we repeated the sampling process many times, 95% of constructed intervals would contain the true θ.</p>
+      <div class="formula-box">
+        <div class="formula-label">95% CI for Population Mean (σ known, large n)</div>
+        X̄ ± zα/2 · σ/√n<br><br>
+        90% CI: z = 1.645 | 95% CI: z = 1.96 | 99% CI: z = 2.58
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">CI for Mean (σ unknown, small n) — use t</div>
+        X̄ ± tα/2,n-1 · S/√n<br><br>
+        where tα/2,n-1 comes from t-table with n−1 degrees of freedom
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">CI for Proportion</div>
+        p̂ ± zα/2 · √(p̂(1−p̂)/n)
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">💡 Q46 type: 99% CI, n=49, σ=2, X̄=3</div>
+        <p>SE = σ/√n = 2/√49 = 2/7. CI = 3 ± 2.58·(2/7) = 3 ± 0.737 = (2.263, 3.737).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 5 -->
+  <div class="module-section-title">
+    <span class="module-pill tag green">Module 5</span> Testing of Hypotheses
+  </div>
+
+  <div class="theory-block" id="t5">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>5.1 Hypothesis Testing Framework</h3>
+      <span class="badge tag green">Very High Weightage</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <div class="def-box">
+        <div class="def-label">Null & Alternative Hypothesis</div>
+        <p><strong>H₀ (Null hypothesis):</strong> The claim we're testing (assumed true). Usually states "no effect", "no difference", or a specific value.<br><strong>H₁ (Alternative hypothesis):</strong> The claim we're trying to prove. Must NOT equal H₀ (e.g., if H₀: σ=3, then H₁: σ≠3).</p>
+      </div>
+      <div class="table-wrap"><table>
+        <tr><th></th><th>H₀ True</th><th>H₀ False</th></tr>
+        <tr><td>Accept H₀</td><td>✅ Correct</td><td>❌ Type II Error (β)</td></tr>
+        <tr><td>Reject H₀</td><td>❌ Type I Error (α)</td><td>✅ Correct (Power = 1−β)</td></tr>
+      </table></div>
+      <ul>
+        <li><strong>Type I Error (α):</strong> Rejecting H₀ when it's TRUE. α = level of significance.</li>
+        <li><strong>Type II Error (β):</strong> Accepting H₀ when it's FALSE.</li>
+        <li><strong>Power = 1−β:</strong> Probability of correctly rejecting H₀.</li>
+      </ul>
+      <div class="tip-box">
+        <div class="tip-label">💡 MCQ Q22 / Q27 — Accepting H₀ at 5% significance</div>
+        <p>If H₀ is accepted at 5% significance, the decision is 95% correct (not 5%). The acceptance region has probability 1−α = 0.95 under H₀.</p>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">💡 MCQ Q21 — P(a ≤ x ≤ b) at 3% significance</div>
+        <p>(a,b) is the ACCEPTANCE region. P(acceptance region) = 1 − α = 1 − 0.03 = 0.97. Answer: (b).</p>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">💡 MCQ Q26 — (a,b) is the CRITICAL region at 4%</div>
+        <p>Here (a,b) is the rejection region. P(critical region) = α = 0.04. Answer: (a).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>5.2 Test Procedures — z, t, χ² Tests</h3>
+      <span class="badge tag green">High Weightage</span><span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <h4>One-Sample z-Test (σ known OR large n)</h4>
+      <div class="formula-box">
+        <div class="formula-label">z-test for mean</div>
+        H₀: μ = μ₀<br>
+        z = (X̄ − μ₀) / (σ/√n)<br><br>
+        Reject H₀ if |z| > z_{α/2} (two-tailed)<br>
+        or z > z_α (upper one-tailed)
+      </div>
+      <h4>One-Sample t-Test (σ unknown, small n)</h4>
+      <div class="formula-box">
+        <div class="formula-label">t-test for mean</div>
+        t = (X̄ − μ₀) / (S/√n),  df = n−1<br><br>
+        Reject H₀ if |t| > t_{α/2, n-1}
+      </div>
+      <h4>Test for Proportion (large n)</h4>
+      <div class="formula-box">
+        <div class="formula-label">z-test for proportion</div>
+        H₀: p = p₀<br>
+        z = (p̂ − p₀) / √(p₀(1−p₀)/n)
+      </div>
+      <h4>Chi-Square Goodness of Fit Test</h4>
+      <div class="formula-box">
+        <div class="formula-label">χ² test statistic</div>
+        χ² = Σ (Oᵢ − Eᵢ)² / Eᵢ<br><br>
+        df = k − 1 (or k − 1 − m if m parameters estimated)<br>
+        Reject H₀ if χ² > χ²_{α, df}
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">💡 Decision Rule Summary</div>
+        <p>1. State H₀ and H₁. 2. Choose α. 3. Compute test statistic. 4. Compare with critical value (from table). 5. If |test stat| > critical value → Reject H₀. 6. State conclusion in context.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end theory section -->
+
+<!-- =================== SOLVED Q&A =================== -->
+<div id="section-solved" class="section">
+  <p class="section-title">Solved Questions with Step-by-Step Solutions</p>
+  <p class="section-sub">Based on your question bank + additional problems. Click any question to see the full solution.</p>
+
+  <div class="module-filter">
+    <button class="filter-btn active" onclick="filterSolved('all',this)">All Modules</button>
+    <button class="filter-btn" onclick="filterSolved('m1',this)">Module 1</button>
+    <button class="filter-btn" onclick="filterSolved('m2',this)">Module 2</button>
+    <button class="filter-btn" onclick="filterSolved('m3',this)">Module 3</button>
+    <button class="filter-btn" onclick="filterSolved('m4',this)">Module 4</button>
+    <button class="filter-btn" onclick="filterSolved('m5',this)">Module 5</button>
+  </div>
+
+  <!-- SOLVED PROBLEMS -->
+  <div data-module="m1" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q1 · M1</span><br>Find k and mean/variance for: X: −2,−1,0,1,2,3 with P(x): 0.1, k, 0.2, 2k, 0.3, 3k</div>
+      <div><span class="difficulty easy">Easy</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Find k using ΣP = 1</div><p>Sum all probabilities: 0.1 + k + 0.2 + 2k + 0.3 + 3k = 1<br>0.6 + 6k = 1 → 6k = 0.4 → <strong>k = 1/15 ≈ 0.0667</strong></p></div>
+      <div class="step"><div class="step-label">Step 2 — Find E(X) = Mean</div><p>E(X) = (−2)(0.1) + (−1)(1/15) + (0)(0.2) + (1)(2/15) + (2)(0.3) + (3)(3/15)<br>= −0.2 − 0.0667 + 0 + 0.1333 + 0.6 + 0.6 = <strong>1.0667 ≈ 16/15</strong></p></div>
+      <div class="step"><div class="step-label">Step 3 — Find E(X²) and then Var(X)</div><p>E(X²) = (4)(0.1) + (1)(1/15) + (0)(0.2) + (1)(2/15) + (4)(0.3) + (9)(3/15)<br>= 0.4 + 0.0667 + 0 + 0.1333 + 1.2 + 1.8 = 3.6<br>Var(X) = E(X²) − [E(X)]² = 3.6 − (16/15)² ≈ 3.6 − 1.138 = <strong>2.462</strong></p></div>
+      <div class="final-ans">✅ k = 1/15, Mean ≈ 1.07, Variance ≈ 2.46</div>
+    </div>
+  </div>
+
+  <div data-module="m1" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q2 · M1 — Binomial</span><br>If mean of Binomial = 3 and variance = 3/2, find P(X ≤ 3)</div>
+      <div><span class="difficulty medium">Medium</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Find n and p</div><p>np = 3 and npq = 3/2.<br>Dividing: q = (3/2)/3 = 1/2, so p = 1/2.<br>n = 3/p = 3/(1/2) = <strong>n = 6, p = 1/2, q = 1/2</strong></p></div>
+      <div class="step"><div class="step-label">Step 2 — Compute P(X ≤ 3) = P(0)+P(1)+P(2)+P(3)</div><p>X ~ B(6, 1/2). P(X=r) = C(6,r)·(1/2)⁶<br>P(0) = 1/64, P(1) = 6/64, P(2) = 15/64, P(3) = 20/64<br>P(X≤3) = (1+6+15+20)/64 = 42/64 = <strong>21/32</strong></p></div>
+      <div class="final-ans">✅ P(X ≤ 3) = 21/32 = 0.65625</div>
+    </div>
+  </div>
+
+  <div data-module="m1" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q3 · M1 — Poisson</span><br>Radioactive source emits avg 2.5 particles/second. Find P(2 or more particles in 4 seconds)</div>
+      <div><span class="difficulty hard">Hard</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Find μ for 4-second interval</div><p>Rate = 2.5 particles/sec. In 4 seconds: μ = 2.5 × 4 = <strong>10</strong></p></div>
+      <div class="step"><div class="step-label">Step 2 — P(X ≥ 2) = 1 − P(X=0) − P(X=1)</div><p>P(X=0) = e⁻¹⁰ · 10⁰/0! = e⁻¹⁰ ≈ 0.0000454<br>P(X=1) = e⁻¹⁰ · 10¹/1! = 10e⁻¹⁰ ≈ 0.000454<br>P(X≥2) = 1 − e⁻¹⁰(1 + 10) = 1 − 11e⁻¹⁰</p></div>
+      <div class="step"><div class="step-label">Step 3 — Final answer</div><p>P(X≥2) = 1 − 11 × 0.0000454 ≈ 1 − 0.000499 ≈ <strong>0.9995</strong></p></div>
+      <div class="final-ans">✅ P(2 or more particles in 4 sec) ≈ 0.9995 ≈ 1 − 11e⁻¹⁰</div>
+    </div>
+  </div>
+
+  <div data-module="m1" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q4 · M1 — Normal Distribution</span><br>Bolt lengths N(4, 0.25). Defective if not in (3.8, 4.3). Find % defective. [Use: Φ(0.6)=0.7257, Φ(0.4)=0.6554]</div>
+      <div><span class="difficulty hard">Hard</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Standardize the limits</div><p>μ=4, σ=0.5. Standardize: z₁=(3.8−4)/0.5 = −0.4, z₂=(4.3−4)/0.5 = 0.6</p></div>
+      <div class="step"><div class="step-label">Step 2 — P(Non-defective) = P(−0.4 ≤ Z ≤ 0.6)</div><p>= Φ(0.6) − Φ(−0.4) = Φ(0.6) − (1−Φ(0.4)) = 0.7257 − (1−0.6554) = 0.7257 − 0.3446 = <strong>0.3811</strong></p></div>
+      <div class="step"><div class="step-label">Step 3 — P(Defective) = 1 − P(Non-defective)</div><p>P(defective) = 1 − 0.3811 = <strong>0.6189 = 61.89%</strong></p></div>
+      <div class="final-ans">✅ Percentage defective ≈ 61.89%</div>
+    </div>
+  </div>
+
+  <div data-module="m1" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q5 · M1 — PDF</span><br>f(x) = kx(1−x) for 0≤x≤1. Find k, mean of X, P(X > 1/2)</div>
+      <div><span class="difficulty medium">Medium</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Find k using ∫f(x)dx = 1</div><p>k∫₀¹ x(1−x)dx = k∫₀¹(x−x²)dx = k[x²/2 − x³/3]₀¹ = k(1/2−1/3) = k/6 = 1<br>∴ <strong>k = 6</strong></p></div>
+      <div class="step"><div class="step-label">Step 2 — Find E(X)</div><p>E(X) = ∫₀¹ x·6x(1−x)dx = 6∫₀¹(x²−x³)dx = 6[x³/3−x⁴/4]₀¹ = 6(1/3−1/4) = 6(1/12) = <strong>1/2</strong></p></div>
+      <div class="step"><div class="step-label">Step 3 — Find P(X > 1/2)</div><p>P(X>1/2) = ∫_{1/2}¹ 6x(1−x)dx = 6[x²/2−x³/3]_{1/2}¹<br>= 6[(1/2−1/3)−(1/8−1/24)] = 6[1/6 − 1/12] = 6·(1/12) = <strong>1/2</strong></p></div>
+      <div class="final-ans">✅ k = 6, Mean = 1/2, P(X > 1/2) = 1/2 (symmetric about 1/2)</div>
+    </div>
+  </div>
+
+  <div data-module="m2" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q6 · M2 — Regression</span><br>Regression lines: 3x + 12y = 19 and 3y + 9x = 46. Find which is x-on-y, mean values, and correlation r.</div>
+      <div><span class="difficulty hard">Hard</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Find mean (x̄, ȳ) — intersection of lines</div><p>Both lines pass through (x̄, ȳ). From line 1: 3x̄ + 12ȳ = 19. From line 2: 9x̄ + 3ȳ = 46.<br>Multiply line 1 by 3: 9x̄ + 36ȳ = 57. Subtract line 2: 33ȳ = 11 → ȳ = 1/3.<br>Substitute: 3x̄ + 4 = 19 → <strong>x̄ = 5, ȳ = 1/3</strong></p></div>
+      <div class="step"><div class="step-label">Step 2 — Identify regression lines</div><p>Line 1: 3x + 12y = 19 → y = 19/12 − (1/4)x. Coeff of x = −1/4 = byx (Y on X).<br>Line 2: 9x + 3y = 46 → x = 46/9 − (1/3)y. Coeff of y = −1/3 = bxy (X on Y).</p></div>
+      <div class="step"><div class="step-label">Step 3 — Find correlation coefficient</div><p>r² = byx · bxy = (−1/4)(−1/3) = 1/12. r = ±1/√12 = ±1/(2√3).<br>Both b's are negative → <strong>r = −1/(2√3) ≈ −0.289</strong></p></div>
+      <div class="final-ans">✅ X on Y: 3y + 9x = 46. Mean: (5, 1/3). r = −1/√12</div>
+    </div>
+  </div>
+
+  <div data-module="m4" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q7 · M4 — Unbiased Estimation</span><br>T₁ and T₂ are statistics with E(T₁) = 2θ₁ + 3θ₂ and E(T₂) = θ₁ + θ₂. Find unbiased estimators of θ₁ and θ₂.</div>
+      <div><span class="difficulty medium">Medium</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Set up system of equations</div><p>We need aT₁ + bT₂ such that its expectation equals θ₁.<br>E(aT₁ + bT₂) = a(2θ₁+3θ₂) + b(θ₁+θ₂) = (2a+b)θ₁ + (3a+b)θ₂</p></div>
+      <div class="step"><div class="step-label">Step 2 — For unbiased estimator of θ₁: coefficient of θ₁ = 1, θ₂ = 0</div><p>2a+b = 1 and 3a+b = 0.<br>Subtracting: a = −1, b = 1−2(−1) = 3.<br>Estimator of θ₁: <strong>3T₂ − T₁</strong></p></div>
+      <div class="step"><div class="step-label">Step 3 — For unbiased estimator of θ₂: coeff of θ₁ = 0, θ₂ = 1</div><p>2a+b = 0 and 3a+b = 1. Subtracting: a = 1, b = −2.<br>Estimator of θ₂: <strong>T₁ − 2T₂</strong></p></div>
+      <div class="final-ans">✅ Unbiased estimator of θ₁ = 3T₂ − T₁. Unbiased estimator of θ₂ = T₁ − 2T₂</div>
+    </div>
+  </div>
+
+  <div data-module="m5" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q8 · M5 — z-test</span><br>Sample: 65,71,64,71,70,69,64,63,67,68. Population σ=√7.056. Test H₀: μ=69 at 1% significance. [P(0<z<2.58)=0.495]</div>
+      <div><span class="difficulty hard">Hard</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Compute sample mean</div><p>X̄ = (65+71+64+71+70+69+64+63+67+68)/10 = 672/10 = <strong>67.2</strong></p></div>
+      <div class="step"><div class="step-label">Step 2 — Compute test statistic</div><p>z = (X̄ − μ₀)/(σ/√n) = (67.2 − 69)/(√7.056/√10) = −1.8/(2.656/3.162) = −1.8/0.84 = <strong>−2.143</strong></p></div>
+      <div class="step"><div class="step-label">Step 3 — Compare with critical value</div><p>At 1% significance, two-tailed: z_{0.005} = 2.58. Since |−2.143| = 2.143 < 2.58, we <strong>fail to reject H₀</strong>.</p></div>
+      <div class="final-ans">✅ Conclusion: At 1% level, there is insufficient evidence to reject H₀: μ = 69.</div>
+    </div>
+  </div>
+
+  <div data-module="m5" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q9 · M5 — Chi-Square Goodness of Fit</span><br>320 families, 5 children each. Boys: 5,4,3,2,1,0 with families: 14,56,110,88,40,12. Test if male/female births equally probable (χ²₀.₀₅,₅ = 11.07)</div>
+      <div><span class="difficulty hard">Hard</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — H₀: p = 0.5 (Binomial B(5, 0.5))</div><p>Under H₀, X ~ B(5, 0.5). Expected frequencies Eᵢ = 320 × C(5,k)·(0.5)⁵</p></div>
+      <div class="step"><div class="step-label">Step 2 — Calculate Expected Frequencies</div><p>E(5 boys) = 320×(1/32) = 10, E(4) = 320×(5/32) = 50, E(3) = 320×(10/32) = 100<br>E(2) = 320×(10/32) = 100, E(1) = 320×(5/32) = 50, E(0) = 320×(1/32) = 10</p></div>
+      <div class="step"><div class="step-label">Step 3 — Compute χ² = Σ(O−E)²/E</div><p>χ² = (14−10)²/10 + (56−50)²/50 + (110−100)²/100 + (88−100)²/100 + (40−50)²/50 + (12−10)²/10<br>= 16/10 + 36/50 + 100/100 + 144/100 + 100/50 + 4/10<br>= 1.6 + 0.72 + 1.0 + 1.44 + 2.0 + 0.4 = <strong>7.16</strong></p></div>
+      <div class="step"><div class="step-label">Step 4 — Compare with critical value</div><p>χ² = 7.16 < 11.07 (critical value). So we <strong>do not reject H₀</strong>.</p></div>
+      <div class="final-ans">✅ Result is consistent with equal probability of male/female births.</div>
+    </div>
+  </div>
+
+  <div data-module="m5" class="solved-block">
+    <div class="solved-q" onclick="toggleSolved(this)">
+      <div><span class="q-num">Q10 · M5 — t-test (small sample)</span><br>Pesticide bags weigh: 50,49,52,44,45,48,46,45,49,45. Test if average = 50 kg. [∫t>2.26 = 0.025]</div>
+      <div><span class="difficulty hard">Hard</span></div>
+    </div>
+    <div class="solved-ans">
+      <div class="step"><div class="step-label">Step 1 — Compute sample mean and variance</div><p>n=10. ΣX = 50+49+52+44+45+48+46+45+49+45 = 473. X̄ = 47.3.<br>Σ(Xᵢ−X̄)² = (2.7²+1.7²+4.7²+3.3²+2.3²+0.7²+1.3²+2.3²+1.7²+2.3²)<br>= 7.29+2.89+22.09+10.89+5.29+0.49+1.69+5.29+2.89+5.29 = 64.1<br>S² = 64.1/9 = 7.122, S = 2.669</p></div>
+      <div class="step"><div class="step-label">Step 2 — Compute t statistic</div><p>t = (X̄ − μ₀)/(S/√n) = (47.3 − 50)/(2.669/√10) = −2.7/0.844 = <strong>−3.20</strong></p></div>
+      <div class="step"><div class="step-label">Step 3 — Compare with critical value</div><p>|t| = 3.20 > 2.26 (given critical value). Reject H₀.</p></div>
+      <div class="final-ans">✅ At 5% level, reject H₀. Average packing is NOT 50 kg.</div>
+    </div>
+  </div>
+
+</div><!-- end solved -->
+
+<!-- =================== MCQ =================== -->
+<div id="section-mcq" class="section">
+  <p class="section-title">MCQ Practice</p>
+  <p class="section-sub">All questions from your question bank plus additional practice. Instant feedback with explanations.</p>
+
+  <div class="mcq-container">
+    <div id="mcq-score-display" style="display:none;"></div>
+    <div id="mcq-progress-wrap">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:8px;">
+        <span id="mcq-counter">Question 1 of 35</span>
+        <span id="mcq-score-live">Score: 0 / 0</span>
+      </div>
+      <div class="mcq-progress-bar"><div class="mcq-progress-fill" id="mcq-progress" style="width:0%"></div></div>
+    </div>
+    <div id="mcq-question-area"></div>
+    <div class="mcq-controls">
+      <button class="btn btn-primary" id="mcq-next" onclick="nextMCQ()" style="display:none">Next Question →</button>
+      <button class="btn btn-outline" onclick="resetMCQ()">Restart Quiz</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== FLASHCARDS =================== -->
+<div id="section-flashcards" class="section">
+  <p class="section-title">Flashcards</p>
+  <p class="section-sub">Click the card to flip it. Use arrow buttons to navigate. Study daily for best results.</p>
+  <div class="flashcard-container">
+    <div id="flashcard" class="flashcard" onclick="flipCard()">
+      <div class="card-label front" id="fc-side">CONCEPT</div>
+      <div class="card-content" id="fc-front"></div>
+      <div class="card-sub" id="fc-sub"></div>
+      <div class="flip-hint">Click to flip ↩</div>
+    </div>
+    <div class="fc-controls">
+      <button class="btn btn-outline" onclick="prevCard()">← Prev</button>
+      <span class="fc-counter" id="fc-counter">1 / 50</span>
+      <button class="btn btn-primary" onclick="nextCard()">Next →</button>
+    </div>
+    <div style="text-align:center;margin-top:12px">
+      <button class="btn btn-outline" onclick="shuffleCards()" style="font-size:12px">🔀 Shuffle</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== CHEATSHEET =================== -->
+<div id="section-cheatsheet" class="section">
+  <p class="section-title">⚡ Quick Reference Cheat Sheet</p>
+  <p class="section-sub">Everything you need to memorize. Print this or screenshot it. Study 2 days before exam.</p>
+  <div class="cheat-grid">
+    <div class="cheat-card">
+      <h4>Expectation Rules</h4>
+      <div class="cheat-item"><span class="ci-name">E(c)</span><span class="ci-val">= c</span></div>
+      <div class="cheat-item"><span class="ci-name">E(aX+b)</span><span class="ci-val">= aE(X)+b</span></div>
+      <div class="cheat-item"><span class="ci-name">E(X+Y)</span><span class="ci-val">= E(X)+E(Y)</span></div>
+      <div class="cheat-item"><span class="ci-name">E(XY) if indep</span><span class="ci-val">= E(X)·E(Y)</span></div>
+      <div class="cheat-item"><span class="ci-name">E(X²)</span><span class="ci-val">= Var(X)+[E(X)]²</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Variance Rules</h4>
+      <div class="cheat-item"><span class="ci-name">Var(c)</span><span class="ci-val">= 0</span></div>
+      <div class="cheat-item"><span class="ci-name">Var(aX+b)</span><span class="ci-val">= a²Var(X)</span></div>
+      <div class="cheat-item"><span class="ci-name">Var(X+Y) indep</span><span class="ci-val">= Var(X)+Var(Y)</span></div>
+      <div class="cheat-item"><span class="ci-name">Var(X)</span><span class="ci-val">= E(X²)−[E(X)]²</span></div>
+      <div class="cheat-item"><span class="ci-name">SD = σ</span><span class="ci-val">= √Var(X)</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Binomial B(n,p)</h4>
+      <div class="cheat-item"><span class="ci-name">PMF</span><span class="ci-val">C(n,r)pʳqⁿ⁻ʳ</span></div>
+      <div class="cheat-item"><span class="ci-name">Mean</span><span class="ci-val">np</span></div>
+      <div class="cheat-item"><span class="ci-name">Variance</span><span class="ci-val">npq</span></div>
+      <div class="cheat-item"><span class="ci-name">MGF</span><span class="ci-val">(q+peᵗ)ⁿ</span></div>
+      <div class="cheat-item"><span class="ci-name">q = 1−p</span><span class="ci-val">always</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Poisson P(μ)</h4>
+      <div class="cheat-item"><span class="ci-name">PMF</span><span class="ci-val">e⁻ᵘμˣ/x!</span></div>
+      <div class="cheat-item"><span class="ci-name">Mean</span><span class="ci-val">μ</span></div>
+      <div class="cheat-item"><span class="ci-name">Variance</span><span class="ci-val">μ (= Mean!)</span></div>
+      <div class="cheat-item"><span class="ci-name">MGF</span><span class="ci-val">exp(μ(eᵗ−1))</span></div>
+      <div class="cheat-item"><span class="ci-name">P(X=1)=P(X=2)</span><span class="ci-val">→ μ=2</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Normal N(μ,σ²)</h4>
+      <div class="cheat-item"><span class="ci-name">Standardize</span><span class="ci-val">Z=(X−μ)/σ</span></div>
+      <div class="cheat-item"><span class="ci-name">Mean</span><span class="ci-val">μ</span></div>
+      <div class="cheat-item"><span class="ci-name">Variance</span><span class="ci-val">σ²</span></div>
+      <div class="cheat-item"><span class="ci-name">68-95-99.7</span><span class="ci-val">1σ/2σ/3σ</span></div>
+      <div class="cheat-item"><span class="ci-name">MGF</span><span class="ci-val">exp(μt+σ²t²/2)</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Standard Error</h4>
+      <div class="cheat-item"><span class="ci-name">SE of X̄</span><span class="ci-val">σ/√n</span></div>
+      <div class="cheat-item"><span class="ci-name">SE of proportion</span><span class="ci-val">√(pq/n)</span></div>
+      <div class="cheat-item"><span class="ci-name">SE of difference</span><span class="ci-val">√(σ₁²/n₁+σ₂²/n₂)</span></div>
+      <div class="cheat-item"><span class="ci-name">Var(T) = SE²</span><span class="ci-val">always</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Confidence Intervals</h4>
+      <div class="cheat-item"><span class="ci-name">90% CI: z=</span><span class="ci-val">1.645</span></div>
+      <div class="cheat-item"><span class="ci-name">95% CI: z=</span><span class="ci-val">1.96</span></div>
+      <div class="cheat-item"><span class="ci-name">99% CI: z=</span><span class="ci-val">2.58</span></div>
+      <div class="cheat-item"><span class="ci-name">Formula</span><span class="ci-val">X̄ ± z·σ/√n</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Hypothesis Testing</h4>
+      <div class="cheat-item"><span class="ci-name">z-test stat</span><span class="ci-val">(X̄−μ)/(σ/√n)</span></div>
+      <div class="cheat-item"><span class="ci-name">t-test stat</span><span class="ci-val">(X̄−μ)/(S/√n)</span></div>
+      <div class="cheat-item"><span class="ci-name">χ² stat</span><span class="ci-val">Σ(O−E)²/E</span></div>
+      <div class="cheat-item"><span class="ci-name">Type I Error = α</span><span class="ci-val">Reject true H₀</span></div>
+      <div class="cheat-item"><span class="ci-name">Type II Error = β</span><span class="ci-val">Accept false H₀</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Correlation & Regression</h4>
+      <div class="cheat-item"><span class="ci-name">r range</span><span class="ci-val">−1 ≤ r ≤ 1</span></div>
+      <div class="cheat-item"><span class="ci-name">r(ax+b,cy+d)</span><span class="ci-val">= sign(ac)·r</span></div>
+      <div class="cheat-item"><span class="ci-name">byx·bxy</span><span class="ci-val">= r²</span></div>
+      <div class="cheat-item"><span class="ci-name">Y on X line</span><span class="ci-val">predict Y from X</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>CDF Properties</h4>
+      <div class="cheat-item"><span class="ci-name">F(−∞)</span><span class="ci-val">= 0</span></div>
+      <div class="cheat-item"><span class="ci-name">F(+∞)</span><span class="ci-val">= 1</span></div>
+      <div class="cheat-item"><span class="ci-name">Monotone</span><span class="ci-val">Non-decreasing</span></div>
+      <div class="cheat-item"><span class="ci-name">P(a&lt;X≤b)</span><span class="ci-val">= F(b)−F(a)</span></div>
+      <div class="cheat-item"><span class="ci-name">f(x) = dF/dx</span><span class="ci-val">continuous case</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Uniform Distribution U(a,b)</h4>
+      <div class="cheat-item"><span class="ci-name">PDF</span><span class="ci-val">1/(b−a)</span></div>
+      <div class="cheat-item"><span class="ci-name">Mean</span><span class="ci-val">(a+b)/2</span></div>
+      <div class="cheat-item"><span class="ci-name">Variance</span><span class="ci-val">(b−a)²/12</span></div>
+      <div class="cheat-item"><span class="ci-name">Variance of 1..n</span><span class="ci-val">(n²−1)/12</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>MLE Summary</h4>
+      <div class="cheat-item"><span class="ci-name">Normal μ</span><span class="ci-val">= X̄</span></div>
+      <div class="cheat-item"><span class="ci-name">Binomial p</span><span class="ci-val">= X̄/n</span></div>
+      <div class="cheat-item"><span class="ci-name">Poisson μ</span><span class="ci-val">= X̄</span></div>
+      <div class="cheat-item"><span class="ci-name">Exponential λ</span><span class="ci-val">= 1/X̄</span></div>
+      <div class="cheat-item"><span class="ci-name">Unbiased?</span><span class="ci-val">MLE often is</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== EXAM PREDICT =================== -->
+<div id="section-predict" class="section">
+  <p class="section-title">🔮 Exam Predictions & High-Priority Questions</p>
+  <p class="section-sub">Based on question bank analysis, syllabus weightage, and typical exam patterns. These are the questions most likely to appear.</p>
+
+  <div class="exam-predict">
+    <h3>🎯 Almost Certain to Appear (MCQ)</h3>
+    <ul>
+      <li>CDF is monotone non-decreasing (not strictly increasing)</li>
+      <li>Var(aX+b) = a²Var(X) — effect of linear transformation</li>
+      <li>Mean of Binomial = np. Variance = npq.</li>
+      <li>For Poisson: Mean = Variance = μ</li>
+      <li>Standard Normal: Mean = 0, Variance = 1</li>
+      <li>Uncorrelated variables: r = 0</li>
+      <li>Effect of linear transformation on correlation coefficient</li>
+      <li>P(acceptance region) = 1 − α (level of significance)</li>
+      <li>Type I error = rejecting true H₀ = α</li>
+      <li>MLE of p for Binomial = X̄/n</li>
+    </ul>
+  </div>
+
+  <div class="exam-predict" style="background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(59,130,246,0.05));border-color:rgba(139,92,246,0.3);">
+    <h3 style="color:var(--purple)">📝 Very Likely Long Questions</h3>
+    <ul>
+      <li><strong>Finding k + mean + variance</strong> from a given discrete/continuous distribution (Q1, Q19 from bank)</li>
+      <li><strong>Binomial problems</strong> — find n,p from mean and SD, then compute P(X=r) or P(X≤k)</li>
+      <li><strong>Poisson problems</strong> — radioactive decay, phone calls type. P(X≥k), P(X=1)=P(X=2)</li>
+      <li><strong>Normal distribution</strong> — standardize, use Z-table, find probability or percentage</li>
+      <li><strong>Regression lines</strong> — identify X on Y / Y on X, find means, compute r</li>
+      <li><strong>MLE derivation</strong> — for Binomial, Poisson, or Normal</li>
+      <li><strong>Unbiased estimation</strong> — show X̄ is unbiased, find combination of T₁ and T₂</li>
+      <li><strong>Confidence interval</strong> — large sample z-based CI for mean or proportion</li>
+      <li><strong>z-test or t-test</strong> — full hypothesis testing procedure with conclusion</li>
+      <li><strong>Chi-square goodness of fit</strong> — families/dice type problem</li>
+    </ul>
+  </div>
+
+  <div class="exam-predict" style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(239,68,68,0.05));border-color:rgba(245,158,11,0.3);">
+    <h3 style="color:var(--gold)">⚡ Tricky Questions — Don't Fall for These</h3>
+    <ul>
+      <li>Acceptance region probability = 1−α, NOT α (confuses many students)</li>
+      <li>Critical region probability = α (NOT 1−α)</li>
+      <li>Correlation sign when multiplying by negative: r(X,−Y) = −r(X,Y)</li>
+      <li>MLE for Binomial p is X̄/n, NOT X̄</li>
+      <li>Unbiased sample variance uses n−1, NOT n</li>
+      <li>If X̄ is unbiased for μ, X̄² is BIASED for μ² (extra Var(X̄) term)</li>
+      <li>Mutually exclusive events with P>0 are DEPENDENT (not independent!)</li>
+      <li>Variance of first n natural numbers = (n²−1)/12, not n²/12</li>
+      <li>E(X²) = Var(X) + [E(X)]² — remember to add the squared mean</li>
+    </ul>
+  </div>
+
+  <div class="theory-block">
+    <div class="theory-header" onclick="toggleBody(this)">
+      <h3>🆕 Professor-Generated Practice Questions (Predict High Probability)</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="theory-body">
+      <h4>These types are NOT in your bank but commonly appear:</h4>
+      <ul>
+        <li>A RV X has PDF f(x) = 2x for 0 ≤ x ≤ 1. Find E(X), Var(X), and P(X > 1/2).</li>
+        <li>If X ~ Exponential(λ), show that P(X > s+t | X > s) = P(X > t). (Memoryless property)</li>
+        <li>Two independent normal RVs: X~N(2,4) and Y~N(3,9). Find distribution of X+Y.</li>
+        <li>Given MGF M(t) = e^(3t+8t²), identify the distribution and find mean and variance.</li>
+        <li>A population has σ² = 4. How large a sample is needed so that P(|X̄−μ| < 0.5) ≥ 0.95?</li>
+        <li>Prove the Neyman-Pearson lemma concept: the most powerful test rejects H₀ when likelihood ratio < k.</li>
+        <li>Two samples: n₁=50, X̄₁=12, S₁=2 and n₂=60, X̄₂=11, S₂=3. Test if means are equal at 5%.</li>
+        <li>Find the MLE of θ for f(x;θ) = θxᶿ⁻¹ for 0 < x < 1.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MOCK EXAM =================== -->
+<div id="section-mockexam" class="section">
+  <p class="section-title">📝 Mock Exam</p>
+  <p class="section-sub">Timed exam simulation covering all 5 modules. Write your answers, then check against provided solutions.</p>
+
+  <div class="exam-header">
+    <div>
+      <div style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px">M(CSE)401 · Mock Exam</div>
+      <div style="font-size:16px;font-weight:700;margin-top:4px">Full Syllabus | 10 Questions</div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--text3);text-align:center;margin-bottom:4px">TIME LIMIT</div>
+      <div class="timer" id="mock-timer">90:00</div>
+    </div>
+    <div>
+      <button class="btn btn-gold" onclick="startMockTimer()" id="mock-start-btn">▶ Start Timer</button>
+      <button class="btn btn-outline" onclick="stopMockTimer()" style="margin-top:8px;display:block">⏸ Stop</button>
+    </div>
+  </div>
+
+  <div id="mock-questions">
+    <div class="exam-q"><div class="eq-num">Q1 [10 marks] — Module 1</div><p>A discrete random variable X has the following probability distribution:<br>x: 0, 1, 2, 3, 4, 5, 6, 7 with P(x): 0, k, 2k, 2k, 3k, k², 2k², 7k²+k<br>(i) Find k. (ii) Find P(X < 6) and P(3 < X < 6). (iii) Find mean and variance.</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q2 [8 marks] — Module 1</div><p>The probability that a pen is defective is 1/10. If 12 pens are manufactured, find:<br>(i) P(exactly 2 defective) (ii) P(none defective) (iii) P(at least 2 defective)</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q3 [8 marks] — Module 1</div><p>If a random variable X has density f(x) = k(x−1)(2−x) for 1 ≤ x ≤ 2, zero elsewhere:<br>(i) Find k and the distribution function F(x). (ii) Find P(5/4 ≤ X ≤ 3/2).</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q4 [10 marks] — Module 1 & 2</div><p>The weekly wages of 10,000 workers follow N(70, 25). Find the expected number of workers with wages:<br>(i) Between Rs.66 and Rs.72 (ii) Less than Rs.66 (iii) More than Rs.72<br>[Given: Φ(0.4)=0.1554, Φ(0.8)=0.2881 from 0]</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q5 [8 marks] — Module 2</div><p>Two regression lines: 3x + 12y = 19 and 9x + 3y = 46.<br>(i) Identify which line is X on Y. (ii) Find (x̄, ȳ). (iii) Find correlation coefficient r.</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q6 [10 marks] — Module 4</div><p>(i) Show that the sample mean X̄ is an unbiased estimator of population mean μ.<br>(ii) T₁ and T₂ satisfy E(T₁) = 2θ₁+3θ₂ and E(T₂) = θ₁+θ₂. Find unbiased estimators of θ₁ and θ₂.</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q7 [8 marks] — Module 4</div><p>From a random sample of size 49 from a normal population with σ=2, the sample mean is 3. Find the 99% confidence interval for the population mean. [Given: ∫₀^2.58 Φ(z)dz = 0.495]</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q8 [10 marks] — Module 5</div><p>Define: Null hypothesis, Alternative hypothesis, Type I error, Type II error, and Power of test. Give examples of each.</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q9 [12 marks] — Module 5</div><p>Sample of size 400 has 80 defective items. Test at 5% whether the proportion in population = 1/6. [Given: ∫₀^1.96 Φ(t)dt = 0.475]<br>Also test at 1% level and comment on whether the conclusion changes.</p><textarea placeholder="Write your solution here..."></textarea></div>
+
+    <div class="exam-q"><div class="eq-num">Q10 [8 marks] — Module 5</div><p>320 families each with 5 children. Observed distribution: 5 boys: 14, 4 boys: 56, 3 boys: 110, 2 boys: 88, 1 boy: 40, 0 boys: 12 families. Test if births are equally probable. [χ²(5df, 5%) = 11.07]</p><textarea placeholder="Write your solution here..."></textarea></div>
+  </div>
+
+  <div style="margin-top:24px; padding:20px; background:var(--bg2); border:1px solid var(--border); border-radius:12px;">
+    <h3 style="color:var(--gold); margin-bottom:16px;">📋 Mock Exam Answer Key Highlights</h3>
+    <p style="color:var(--text2);font-size:14px;line-height:1.7;">After completing the exam, check your answers against the Solved Q&A section. Key things to verify: Q1 → k=0.1, Mean=29/10; Q2 → Use Binomial B(12,0.1); Q3 → k=6; Q4 → Standardize using Z=(X−70)/5; Q5 → r = −1/√12; Q6 → Use E(X̄) = μ proof; Q7 → CI = (2.26, 3.74); Q9 → z = 1.48 < 1.96, don't reject; Q10 → χ² = 7.16 < 11.07, consistent.</p>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+// =================== NAVIGATION ===================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function toggleBody(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  body.classList.toggle('open');
+  if(chevron) chevron.classList.toggle('open');
+}
+
+function openModule(id) {
+  const el = document.getElementById(id);
+  if(el) { const body = el.querySelector('.theory-body'); const h = el.querySelector('.theory-header'); if(body && !body.classList.contains('open')) toggleBody(h); el.scrollIntoView({behavior:'smooth'}); }
+}
+
+function toggleSolved(el) {
+  const ans = el.nextElementSibling;
+  ans.classList.toggle('open');
+}
+
+// =================== MODULE FILTER ===================
+function filterSolved(mod, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.solved-block').forEach(b => {
+    b.style.display = (mod === 'all' || b.dataset.module === mod) ? 'block' : 'none';
+  });
+}
+
+// =================== MCQ DATA ===================
+const mcqData = [
+  {q:"If X is a discrete random variable, then its distribution function is", opts:["Monotonic increasing strictly","Monotonic decreasing strictly","Monotonic non-increasing","Monotonic non-decreasing"], ans:3, exp:"The CDF F(x) = P(X ≤ x) is always monotone NON-DECREASING. It can stay flat (at jumps between values in discrete case) — hence 'non-decreasing' not 'strictly increasing'. This is a classic MCQ trap."},
+  {q:"The expectation of the distribution: x=0,1,2,3 with P(x)=1/4, 1/8, 1/2, 1/8 is:", opts:["1/2","5/2","3/2","1"], ans:2, exp:"E(X) = 0×(1/4) + 1×(1/8) + 2×(1/2) + 3×(1/8) = 0 + 1/8 + 1 + 3/8 = 1 + 4/8 = 1 + 1/2 = 3/2."},
+  {q:"The variance of a random variable X is:", opts:["E(X²)","[E(X)]²","E(X²) − [E(X)]²","E(X²) − E(X)"], ans:2, exp:"Var(X) = E(X²) − [E(X)]². This is the computational formula derived from E[(X−μ)²] = E(X²) − μ². Never confuse with option d, which subtracts E(X) not [E(X)]²."},
+  {q:"If Var(X) = 2/3, then Var(3X + 5) =", opts:["8","2","6","11"], ans:2, exp:"Var(aX+b) = a²·Var(X). So Var(3X+5) = 9 × (2/3) = 6. The constant +5 has no effect on variance (it just shifts the distribution)."},
+  {q:"The mean of Binomial distribution B(n,p) is:", opts:["n/p","0","np","1"], ans:2, exp:"Mean of Binomial = np. This is fundamental. Variance = npq = np(1−p). Remember: mean × q = variance, so q = variance/mean."},
+  {q:"Mean=4, SD=√(8/3) for Binomial. Values of n and p are:", opts:["11, 3/4","12, 2/7","12, 1/3","11, 4/3"], ans:2, exp:"np=4 and npq=8/3. q = (8/3)/4 = 2/3, p = 1/3, n = 4/(1/3) = 12. Answer: n=12, p=1/3."},
+  {q:"Variance of first n natural numbers is:", opts:["n²−1","(n²−1)/10","n²/12","(n²−1)/12"], ans:3, exp:"Variance of {1,2,...,n} = (n²−1)/12. Mean = (n+1)/2. Memorize this formula — it appears regularly."},
+  {q:"If r(x,y)=0.5, correlation between 5x and −3y is:", opts:["0.5","−0.5","1.5","−1.5"], ans:1, exp:"r(ax+b, cy+d) = sign(a·c) × r(x,y). Here a=5, c=−3. sign(5×−3) = sign(−15) = −1. So r = −1 × 0.5 = −0.5."},
+  {q:"Mean and variance of Standard Normal Distribution are:", opts:["0 and 1","m and σ","1 and 1","m and σ²"], ans:0, exp:"The STANDARD normal has mean 0 and variance 1. The general normal N(m,σ²) has mean m and variance σ². Standard = standardized version with μ=0, σ=1."},
+  {q:"X is Poisson, P(X=1)=P(X=2). Variance of X is:", opts:["0","2","√2","−2"], ans:1, exp:"P(X=1)=P(X=2): e⁻ᵘμ/1! = e⁻ᵘμ²/2! → μ = μ²/2 → μ=2. For Poisson, Variance = μ = 2."},
+  {q:"Which is a statistic of n>1 dimension?", opts:["Mean of population","Mean of sample","SD of population","Random variable"], ans:1, exp:"A statistic is a function of the SAMPLE (observations), not the population. 'Mean of sample' = X̄ = (X₁+...+Xₙ)/n is a statistic based on n>1 observations."},
+  {q:"E[(X-1)²]=10, E[(X-2)²]=6. Then E[X]=?", opts:["5/2","6","9/2","7/2"], ans:3, exp:"Expand: E(X²)−2E(X)+1=10 and E(X²)−4E(X)+4=6. Subtracting: 2E(X)−3=4 → 2E(X)=7 → E(X)=7/2."},
+  {q:"E[(X-1)²]=10, E[(X-2)²]=6. Then Var(X)=?", opts:["5/2","15/4","9/2","7/2"], ans:1, exp:"From previous: E(X)=7/2. E(X²) = 10+2(7/2)−1 = 10+7−1=16. Wait: E(X²)−2E(X)+1=10 → E(X²)=10+7−1=16. Var(X)=16−(7/2)²=16−49/4=64/4−49/4=15/4."},
+  {q:"X~N(0,1). E(X²) =", opts:["1","2","8","20"], ans:0, exp:"E(X²) = Var(X) + [E(X)]² = 1 + 0² = 1. For standard normal: Var=1, Mean=0. So E(X²)=1."},
+  {q:"X has uniform distribution on [4,10]. Mean of X =", opts:["2","7","5","6"], ans:3, exp:"Mean of Uniform U(a,b) = (a+b)/2 = (4+10)/2 = 14/2 = 7."},
+  {q:"If two variables are uncorrelated, their correlation coefficient is:", opts:["1","-1","0","±1"], ans:2, exp:"Uncorrelated means Cov(X,Y)=0, which means r=0. Note: r=0 does NOT mean independent (unless normal). Uncorrelated ≠ independent in general."},
+  {q:"If r_xy = −2/3, u=2x+5, v=−2y+3. Correlation of u and v:", opts:["3/2","2/3","−3/2","−2/3"], ans:1, exp:"r(u,v) = sign(2×(−2)) × r(x,y) = sign(−4) × (−2/3) = (−1)×(−2/3) = +2/3. The negative sign from transformation flips the negative correlation."},
+  {q:"If t is a statistic with standard error 3, variance of t is:", opts:["9","√3","6","3"], ans:0, exp:"Standard Error = √Variance. So Variance = (SE)² = 3² = 9. This is the definition."},
+  {q:"Normal population: mean=3, SD=0.2. SE of sample mean with n=100:", opts:["0.2","0.02","0.002","0.6"], ans:1, exp:"SE(X̄) = σ/√n = 0.2/√100 = 0.2/10 = 0.02."},
+  {q:"MLE of p for Binomial distribution B(n,p) is:", opts:["x̄","nx̄","x̄/n","n"], ans:2, exp:"For Binomial with known n: L(p)=Π C(n,xᵢ)pˢʰXᵢ(1−p)ⁿ⁻ˢˣᵢ. Taking log and differentiating: p̂ = (Σxᵢ)/(mn) = x̄/n where x̄ is sample mean."},
+  {q:"(a,b) is acceptance region at 3% significance. P(a≤x≤b) =", opts:["0.9","0.97","0.99","0.03"], ans:1, exp:"P(acceptance region) = 1 − α = 1 − 0.03 = 0.97. The acceptance region contains 97% of the distribution under H₀."},
+  {q:"H₀ accepted at 5% significance. Decision is:", opts:["5% correct","0.5% correct","95% correct","95% wrong"], ans:2, exp:"When we accept H₀, we are working in the acceptance region = 1−α = 95% of the distribution. So the decision is 95% correct."},
+  {q:"If X and Y are independent RVs, then:", opts:["E(XY)=E(X)+E(Y)","E(XY)=E(X)−E(Y)","E(XY)=E(X)·E(Y)","E(XY)=E(X)/E(Y)"], ans:2, exp:"For independent X,Y: E(XY) = E(X)·E(Y). This is not true in general — only when they are independent."},
+  {q:"X~B(4, 1/3). P(X=1) =", opts:["41/81","32/81","56/81","16/27"], ans:1, exp:"P(X=1) = C(4,1)×(1/3)¹×(2/3)³ = 4×(1/3)×(8/27) = 32/81."},
+  {q:"H₀: σ=3. Which is the alternative hypothesis?", opts:["σ=4","σ=1","σ≠2","σ≠3"], ans:3, exp:"The alternative must be the COMPLEMENT of H₀. H₀: σ=3, so H₁: σ≠3. Options a and b are point alternatives (specific values, not complement). Option c has σ≠2 which is wrong."},
+  {q:"(a,b) is the CRITICAL region at 4%. P(a<t<b) =", opts:["0.04","0.4","0.96","0.94"], ans:0, exp:"(a,b) here is the REJECTION (critical) region. P(critical region) = α = 0.04. Contrast with Q21 where (a,b) was the acceptance region."},
+  {q:"H₀ accepted at 0.05 significance. Decision is:", opts:["5% correct","0.05% correct","95% correct","95% wrong"], ans:2, exp:"Same logic as Q22. P(acceptance region) = 1−0.05 = 0.95 = 95%. Decision is 95% correct."},
+  {q:"Sample: 6,9,7,12,22,24,25. Unbiased estimate of population mean:", opts:["24","15","22","21"], ans:1, exp:"Sum = 6+9+7+12+22+24+25 = 105. n=7. X̄ = 105/7 = 15. Sample mean is unbiased estimator of population mean."},
+  {q:"X̄ drawn from Normal(μ, 4). MLE of μ is:", opts:["2x̄","3x̄","x̄","x̄/2"], ans:2, exp:"For Normal(μ, σ²) with σ known, MLE of μ is always x̄ (the sample mean), regardless of σ. The SD=2 is irrelevant here."},
+  {q:"S² is sample variance of size 10. Unbiased estimator of population variance:", opts:["10S²/9","11S²/9","9S²/10","S²"], ans:0, exp:"Sample variance S²=Σ(Xᵢ−X̄)²/n is biased. Unbiased estimator = n·S²/(n−1) = 10S²/9. This corrects the downward bias."},
+  {q:"Sampling distribution of X̄ is approximately normal if sample size is:", opts:["2","10","5","100"], ans:3, exp:"By CLT, X̄ is approximately normal for large n. Rule of thumb: n≥30 is 'large'. Among the options, 100 is the only value that qualifies as large."},
+  {q:"E(T₁)=2θ₁+3θ₂, E(T₂)=θ₁+θ₂. Unbiased estimate of θ₁:", opts:["3T₂−T₁","3T₂+2T₁","2T₂−3T₁","3T₂−4T₁"], ans:0, exp:"We need aT₁+bT₂ with expectation θ₁. So a(2θ₁+3θ₂)+b(θ₁+θ₂)=θ₁. Gives 2a+b=1, 3a+b=0. Solving: a=−1, b=3. So 3T₂−T₁."},
+  {q:"Sampling error depends on:", opts:["Size of sample","Variability of data in sample","Population size","Variability of data in population"], ans:0, exp:"Sampling error = difference between sample statistic and population parameter. It depends on (a) sample size n — larger n → smaller error, and (d) population variability σ. The primary answer here is sample size."},
+  {q:"Normal pop: mean=0.1, SD=2.1. Mean of sampling distribution of X̄ with n=900:", opts:["1","0.1","0.001","0.01"], ans:1, exp:"E(X̄) = population mean = 0.1. The mean of the sampling distribution of X̄ always equals the population mean, regardless of sample size."},
+  {q:"Sample variance with n=9 from infinite population with SD=3. Mean of sample variance:", opts:["6","7","8","9"], ans:2, exp:"E(S²) = σ² × (n−1)/n = 9 × 8/9 = 8. Wait — if S² = Σ(Xᵢ−X̄)²/(n−1) (unbiased), E(S²)=σ²=9. If S²=Σ(Xᵢ−X̄)²/n (biased), E(S²)=σ²(n−1)/n=9×8/9=8. Given the answer is 8, they use biased S²."}
+];
+
+let mcqCurrent = 0;
+let mcqScore = 0;
+let mcqAnswered = 0;
+let mcqAnsweredThis = false;
+
+function renderMCQ() {
+  if(mcqCurrent >= mcqData.length) { showMCQScore(); return; }
+  const q = mcqData[mcqCurrent];
+  const area = document.getElementById('mcq-question-area');
+  const pct = (mcqCurrent / mcqData.length * 100).toFixed(0);
+  document.getElementById('mcq-progress').style.width = pct+'%';
+  document.getElementById('mcq-counter').textContent = `Question ${mcqCurrent+1} of ${mcqData.length}`;
+  document.getElementById('mcq-score-live').textContent = `Score: ${mcqScore} / ${mcqAnswered}`;
+  document.getElementById('mcq-next').style.display = 'none';
+  mcqAnsweredThis = false;
+
+  const opts = q.opts.map((o,i) => `<button class="option-btn" onclick="checkMCQ(this,${i},${q.ans},'${q.exp.replace(/'/g,"\\'")}')" id="opt-${i}"><span class="opt-key">${String.fromCharCode(65+i)}.</span> ${o}</button>`).join('');
+  area.innerHTML = `<div class="mcq-card"><div class="q-info"><span>Q${mcqCurrent+1} of ${mcqData.length}</span><span>Select one answer</span></div><div class="question">${q.q}</div><div class="options">${opts}</div><div class="explanation" id="mcq-exp"></div></div>`;
+}
+
+function checkMCQ(btn, chosen, correct, exp) {
+  if(mcqAnsweredThis) return;
+  mcqAnsweredThis = true;
+  mcqAnswered++;
+  document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+  document.getElementById('opt-'+correct).classList.add('correct');
+  if(chosen !== correct) { btn.classList.add('wrong'); } else { mcqScore++; }
+  document.getElementById('mcq-score-live').textContent = `Score: ${mcqScore} / ${mcqAnswered}`;
+  const expEl = document.getElementById('mcq-exp');
+  expEl.innerHTML = `<div class="exp-label">📚 Explanation</div>${exp}`;
+  expEl.classList.add('show');
+  document.getElementById('mcq-next').style.display = 'inline-block';
+}
+
+function nextMCQ() { mcqCurrent++; renderMCQ(); }
+function resetMCQ() { mcqCurrent=0; mcqScore=0; mcqAnswered=0; mcqAnsweredThis=false; document.getElementById('mcq-score-display').style.display='none'; document.getElementById('mcq-progress-wrap').style.display='block'; renderMCQ(); }
+
+function showMCQScore() {
+  const pct = Math.round(mcqScore/mcqData.length*100);
+  let msg = pct>=90?'🏆 Outstanding! You are ready to top!': pct>=75?'✅ Great job! Review weak spots.': pct>=60?'📚 Good progress. More practice needed.':'💪 Keep studying — you got this!';
+  document.getElementById('mcq-question-area').innerHTML = `<div class="score-card"><div class="score-num">${mcqScore}/${mcqData.length}</div><div class="score-label" style="font-size:18px;font-weight:700;margin-top:8px">${pct}%</div><div class="score-label" style="margin-top:16px;font-size:16px">${msg}</div></div>`;
+  document.getElementById('mcq-next').style.display='none';
+}
+
+// =================== FLASHCARDS ===================
+const cards = [
+  {f:"What is a Random Variable?", b:"A function X: Ω → ℝ that assigns a real number to each outcome of a random experiment. It's not random itself — it maps randomness to numbers.", sub:"Key: RV can be discrete (countable values) or continuous (any real value)"},
+  {f:"CDF Properties", b:"F(x) = P(X≤x). Properties: (1) Non-decreasing, (2) F(−∞)=0, (3) F(+∞)=1, (4) Right-continuous, (5) P(a<X≤b)=F(b)−F(a)", sub:"MCQ Trap: 'Monotone non-decreasing' NOT strictly increasing"},
+  {f:"Var(aX + b) = ?", b:"a² · Var(X). The constant b has NO effect on variance. Multiplying by a scales variance by a².", sub:"Example: Var(3X+5) = 9·Var(X)"},
+  {f:"E(aX + b) = ?", b:"a·E(X) + b. Expectation is linear.", sub:"Both a and b affect the mean. Only a affects spread (variance)."},
+  {f:"Binomial B(n,p): Mean, Variance?", b:"Mean = np. Variance = npq where q = 1−p.", sub:"SD = √(npq). To find n,p: use np=mean, npq=variance → q=var/mean"},
+  {f:"Poisson P(μ): Mean, Variance?", b:"Mean = Variance = μ. Both equal the parameter μ.", sub:"Key fact: Mean = Variance for Poisson. If P(X=1)=P(X=2) → μ=2"},
+  {f:"Standard Normal N(0,1): what is E(X²)?", b:"E(X²) = Var(X) + [E(X)]² = 1 + 0² = 1", sub:"Use formula: E(X²) = Var(X) + [E(X)]² always"},
+  {f:"Normal distribution: 3 key percentages?", b:"68.27% within μ±σ. 95.45% within μ±2σ. 99.73% within μ±3σ.", sub:"Called the 68-95-99.7 rule or Empirical Rule"},
+  {f:"How to standardize X~N(μ,σ²)?", b:"Z = (X − μ) / σ. Then Z ~ N(0,1) and you can use standard normal tables.", sub:"Always draw a diagram, shade the area, then compute Z values"},
+  {f:"Bayes Theorem formula?", b:"P(Aᵢ|B) = P(B|Aᵢ)·P(Aᵢ) / Σⱼ P(B|Aⱼ)·P(Aⱼ)", sub:"Numerator: likelihood × prior. Denominator: total probability P(B)"},
+  {f:"What is correlation coefficient r?", b:"r = Cov(X,Y)/(σₓσᵧ). Always −1 ≤ r ≤ 1.", sub:"r=0: uncorrelated. r=1: perfect positive. r=−1: perfect negative. r=0 does NOT mean independent!"},
+  {f:"Effect of linear transform on r", b:"r(ax+b, cy+d) = sign(a·c) × r(x,y). Only the SIGNS of multipliers matter.", sub:"If one multiplier is negative, r flips sign. Additive constants (b,d) don't affect r"},
+  {f:"Regression: Y on X line", b:"y − ȳ = byx·(x − x̄) where byx = r·(σᵧ/σₓ). Use this to predict Y given X.", sub:"Product of regression coefficients: byx · bxy = r²"},
+  {f:"Central Limit Theorem", b:"If X₁,...,Xₙ are iid with mean μ and variance σ², then X̄ ~ N(μ, σ²/n) as n→∞.", sub:"Rule of thumb: n≥30 for CLT approximation. This is why normal tables work for large samples"},
+  {f:"Standard Error of X̄", b:"SE(X̄) = σ/√n. Decreases as sample size increases.", sub:"SE = SD of the SAMPLING DISTRIBUTION of X̄, not of X itself"},
+  {f:"Type I Error vs Type II Error", b:"Type I (α): Reject TRUE H₀. Type II (β): Accept FALSE H₀. Power = 1−β = P(reject false H₀).", sub:"α = significance level = P(Type I). We choose α, then design test to minimize β"},
+  {f:"What is MLE?", b:"Maximum Likelihood Estimator — value of θ that maximizes P(data|θ). Find by maximizing log-likelihood: dlog L/dθ = 0.", sub:"MLEs: Normal μ → X̄. Binomial p → X̄/n. Poisson μ → X̄."},
+  {f:"Unbiased vs Consistent Estimator", b:"Unbiased: E(T)=θ for all n. Consistent: T→θ as n→∞. Unbiased for all n is stronger condition.", sub:"X̄ is unbiased AND consistent for μ. Biased sample variance S²=Σ/n is still consistent."},
+  {f:"Confidence Interval (95%)", b:"X̄ ± 1.96 × σ/√n. This interval contains true μ with 95% confidence.", sub:"90%: ±1.645. 95%: ±1.96. 99%: ±2.58. For unknown σ, use t-distribution with S"},
+  {f:"Chi-square goodness of fit", b:"χ² = Σ(Oᵢ−Eᵢ)²/Eᵢ. df = k−1 (or k−1−m if m parameters estimated). Reject if χ² > critical value.", sub:"O = observed frequency. E = expected frequency under H₀. All Eᵢ should be ≥5"},
+  {f:"If X is unbiased for A, is X² unbiased for A²?", b:"NO! E(X²) = Var(X) + [E(X)]² = Var(X) + A² ≠ A². Bias = Var(X) > 0.", sub:"This is a common trick question. Being unbiased is not preserved under nonlinear transformations"},
+  {f:"Acceptance region vs Critical region", b:"Acceptance region: P = 1−α. Critical region: P = α. They are COMPLEMENTARY.", sub:"At 3% significance: P(accept) = 0.97. P(reject/critical) = 0.03"},
+  {f:"Variance of first n natural numbers", b:"(n²−1)/12. Mean = (n+1)/2.", sub:"Derived from Var(X) for uniform distribution on {1,2,...,n}"},
+  {f:"Mean of Uniform U(a,b)?", b:"(a+b)/2. Variance = (b−a)²/12.", sub:"Example: U(4,10) → mean = 7, variance = 36/12 = 3"},
+  {f:"If P(X=1) = P(X=2) for Poisson, find μ", b:"e⁻ᵘμ¹/1! = e⁻ᵘμ²/2! → μ = μ²/2 → μ = 2. Mean = Variance = 2.", sub:"Variance = μ = 2 for this Poisson distribution"},
+  {f:"t-distribution vs Normal", b:"t-distribution used when σ is unknown and n is small. Has heavier tails than normal. As df→∞, t→N(0,1).", sub:"t-test statistic: t = (X̄−μ)/(S/√n) with df = n−1"},
+  {f:"Covariance formula", b:"Cov(X,Y) = E(XY) − E(X)·E(Y). If independent: Cov=0 (but Cov=0 doesn't imply independence).", sub:"r = Cov(X,Y)/(σₓ·σᵧ)"},
+  {f:"z-test statistic", b:"z = (X̄ − μ₀)/(σ/√n). Reject H₀ if |z| > z_{α/2} (two-tailed) or z > z_α (one-tailed).", sub:"Requires: large n OR known σ. Otherwise use t-test"},
+  {f:"Sample variance — biased or unbiased?", b:"S² = Σ(Xᵢ−X̄)²/(n−1) is UNBIASED. Dividing by n gives biased estimate. The n−1 correction is called Bessel's correction.", sub:"Unbiased S²: divide by n−1. MLE uses n (biased). For exam use n−1."},
+  {f:"Two regression lines — how to identify?", b:"Y on X: used to predict Y from X, regress Y on X. X on Y: used to predict X from Y. Both lines pass through (x̄,ȳ).", sub:"r² = byx × bxy. Product of slopes = r². Both have same sign as r."},
+  {f:"Moment Generating Function (MGF)", b:"M(t) = E(eᵗˣ). E(Xʳ) = Mˢ(ʳ)(0) = r-th derivative of M at t=0.", sub:"MGF uniquely determines distribution. Two RVs with same MGF have same distribution."},
+  {f:"F-distribution", b:"F = (U/m)/(V/n) where U~χ²(m) and V~χ²(n) independently. Used to compare two variances.", sub:"F-test: H₀:σ₁²=σ₂². Reject if F > F_{α,m,n}"},
+  {f:"Chi-square distribution", b:"χ²(k) = Z₁²+Z₂²+...+Zₖ² where Zᵢ~N(0,1) iid. Mean=k, Variance=2k.", sub:"Used for testing variance, goodness of fit, independence in contingency tables"},
+  {f:"What is a consistent estimator?", b:"T is consistent for θ if Tₙ→θ in probability as n→∞. Sufficient: E(T)→θ and Var(T)→0.", sub:"X̄ is consistent for μ since E(X̄)=μ always and Var(X̄)=σ²/n→0"},
+  {f:"MLE for Binomial p", b:"p̂ = X̄/n where X̄ = sample mean and n = number of trials. NOT just X̄.", sub:"This appears in MCQ Q20. Key: divide by n (trials per experiment)."},
+  {f:"How many degrees of freedom for t-test?", b:"df = n−1 for one-sample t-test. For two-sample: df = n₁+n₂−2.", sub:"Look up t-table with these df and your α to find critical value"},
+  {f:"Properties of Expectation — independence", b:"E(XY) = E(X)·E(Y) ONLY IF X,Y are independent. Not true in general.", sub:"But Var(X+Y) = Var(X)+Var(Y) also requires independence"},
+  {f:"z-test for proportion", b:"z = (p̂ − p₀)/√(p₀q₀/n) where p̂ = sample proportion, p₀ = hypothesized proportion.", sub:"Large sample required (np₀≥5 and nq₀≥5)"},
+  {f:"Method of Moments (MOM)", b:"Set theoretical moments equal to sample moments and solve. E(X)=x̄ gives equation for θ.", sub:"Simpler than MLE but less efficient. Used when MLE is hard to compute."},
+  {f:"What is the power of a test?", b:"Power = 1−β = P(reject H₀ | H₀ is false). Higher power = better test.", sub:"We want: small α (Type I) AND large power (1−β). They trade off against each other."},
+  {f:"Neyman-Pearson Lemma", b:"The most powerful test of H₀:θ=θ₀ vs H₁:θ=θ₁ rejects H₀ when likelihood ratio L(θ₀)/L(θ₁) < k.", sub:"This gives the optimal (most powerful) critical region at significance level α"},
+  {f:"Two-sample z-test for means", b:"z = (X̄₁−X̄₂)/√(σ₁²/n₁+σ₂²/n₂). Tests if two population means are equal.", sub:"Requires: known σ₁,σ₂ OR large n₁,n₂. For unknown σ use pooled t-test."},
+  {f:"Independence: joint vs marginal", b:"X,Y independent iff f(x,y) = fₓ(x)·fᵧ(y) for all x,y. Equivalently, P(X=x,Y=y)=P(X=x)·P(Y=y).", sub:"Check independence by factoring the joint distribution"},
+  {f:"What is the Standard Normal CDF Φ(z)?", b:"Φ(z) = P(Z≤z) for Z~N(0,1). Φ(0)=0.5. Φ(1.96)≈0.975. Φ(2.58)≈0.995.", sub:"Symmetric: Φ(−z) = 1−Φ(z). P(−z<Z<z) = 2Φ(z)−1"},
+  {f:"Large Sample Confidence Interval for μ", b:"X̄ ± z_{α/2}·σ/√n. For 95%: X̄ ± 1.96·σ/√n. Width = 2·z·σ/√n.", sub:"To halve width, need 4× sample size (since √(4n)=2√n)"},
+  {f:"Geometric Distribution G(p)", b:"P(X=k) = (1−p)^(k−1)·p. Mean = 1/p. Variance = (1−p)/p².", sub:"Models number of trials until first success. Has memoryless property."},
+  {f:"Exponential Distribution Exp(λ)", b:"PDF: f(x)=λe^(−λx) for x>0. Mean=1/λ. Variance=1/λ². Memoryless.", sub:"P(X>s+t|X>s) = P(X>t). Only continuous memoryless distribution."},
+  {f:"What happens to r when H₀: σ=3 and we test σ=5?", b:"H₁ must be σ≠3 (or σ>3 for one-tailed). NOT σ=5 — that would be another H₀.", sub:"Alternative H₁ must be the logical complement of H₀. It can't specify an exact value."},
+  {f:"When to use t-test vs z-test?", b:"z-test: n large (≥30) OR σ known. t-test: small n AND σ unknown (use S instead).", sub:"In practice, almost always use t-test unless σ is truly known (rare in real data)"},
+];
+
+let fcIdx = 0;
+let fcFlipped = false;
+let fcOrder = [...Array(cards.length).keys()];
+
+function showCard() {
+  fcFlipped = false;
+  const c = cards[fcOrder[fcIdx]];
+  document.getElementById('fc-side').textContent = 'CONCEPT';
+  document.getElementById('fc-side').className = 'card-label front';
+  document.getElementById('fc-front').textContent = c.f;
+  document.getElementById('fc-sub').textContent = '';
+  document.getElementById('fc-counter').textContent = `${fcIdx+1} / ${cards.length}`;
+  document.getElementById('flashcard').style.background = 'var(--bg2)';
+}
+
+function flipCard() {
+  const c = cards[fcOrder[fcIdx]];
+  if(!fcFlipped) {
+    document.getElementById('fc-side').textContent = 'ANSWER';
+    document.getElementById('fc-side').className = 'card-label back';
+    document.getElementById('fc-front').textContent = c.b;
+    document.getElementById('fc-sub').textContent = c.sub || '';
+    document.getElementById('flashcard').style.background = 'rgba(16,185,129,0.06)';
+  } else {
+    document.getElementById('fc-side').textContent = 'CONCEPT';
+    document.getElementById('fc-side').className = 'card-label front';
+    document.getElementById('fc-front').textContent = c.f;
+    document.getElementById('fc-sub').textContent = '';
+    document.getElementById('flashcard').style.background = 'var(--bg2)';
+  }
+  fcFlipped = !fcFlipped;
+}
+
+function nextCard() { fcIdx = (fcIdx+1)%cards.length; showCard(); }
+function prevCard() { fcIdx = (fcIdx-1+cards.length)%cards.length; showCard(); }
+function shuffleCards() { for(let i=fcOrder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcOrder[i],fcOrder[j]]=[fcOrder[j],fcOrder[i]];} fcIdx=0; showCard(); alert('Cards shuffled!'); }
+
+// =================== MOCK TIMER ===================
+let mockInterval = null;
+let mockSeconds = 5400;
+
+function startMockTimer() {
+  document.getElementById('mock-start-btn').textContent = '▶ Running';
+  if(mockInterval) clearInterval(mockInterval);
+  mockInterval = setInterval(()=>{
+    mockSeconds--;
+    if(mockSeconds<=0){clearInterval(mockInterval);document.getElementById('mock-timer').textContent='00:00';return;}
+    const m = Math.floor(mockSeconds/60);
+    const s = mockSeconds%60;
+    document.getElementById('mock-timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if(mockSeconds<=300) document.getElementById('mock-timer').style.color='var(--red)';
+  },1000);
+}
+
+function stopMockTimer() { clearInterval(mockInterval); }
+
+// =================== INIT ===================
+renderMCQ();
+showCard();
+</script>
+</body>
+</html>
